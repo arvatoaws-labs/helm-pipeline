@@ -1,4 +1,4 @@
-FROM archlinux
+FROM archlinux/base
 
 RUN pacman --noconfirm -Syu && pacman --noconfirm -S git sudo base-devel
 RUN chmod 640 /etc/sudoers && echo '%wheel ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && chmod 440 /etc/sudoers && useradd -m -p123123 -G wheel yaourt
