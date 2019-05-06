@@ -18,4 +18,4 @@ RUN sudo -u yaourt rm -rf /tmp/package-query && \
     rm -rf /tmp/package-query && \
     rm -rf /tmp/yaourt
 
-RUN sudo -u yaourt yaourt --noconfirm -S kubernetes-helm kubectl aws-cli aws-iam-authenticator-bin && yes | sudo -u yaourt yaourt -Qtd
+RUN sudo -u yaourt yaourt --noconfirm -S kubernetes-helm kubectl aws-cli aws-iam-authenticator-bin && yes | sudo -u yaourt yaourt -Qtd && rm -rf /home/yaourt/.cache && rm -rf /home/yaourt/.glide
