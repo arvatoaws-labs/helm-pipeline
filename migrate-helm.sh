@@ -17,8 +17,8 @@ else
   exit 0
 fi
 
-# echo "converting config helm2 to helm3"
-# helm 2to3 move config
+echo "converting config helm2 to helm3"
+helm 2to3 move config
 
 HELM_STATUS="$(helm3 status $RELEASE -n $NAMESPACE)"
 if [ $? -eq 0 ]; then
