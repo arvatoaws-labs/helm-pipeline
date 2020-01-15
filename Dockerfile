@@ -6,5 +6,6 @@ RUN wget https://get.helm.sh/helm-v3.0.2-linux-amd64.tar.gz && tar xf helm-v3.0.
 ADD migrate-helm.sh /usr/local/bin/migrate-helm.sh
 ADD create-ns.sh /usr/local/bin/create-ns.sh
 USER helm
+WORKDIR /home/helm
 RUN rm -rf ~/.ssh/known_hosts && mkdir ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 RUN helm init --client-only && helm plugin install https://github.com/helm/helm-2to3
