@@ -29,4 +29,4 @@ else
 fi
 
 echo "converting release helm2 to helm3"
-helm 2to3 convert $RELEASE
+helm 2to3 convert --delete-v2-releases $RELEASE
