@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [ $# -lt 2 ] ;then
     echo "Usage: <filename> <dstfolder>"
     exit 1
