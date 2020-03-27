@@ -1,7 +1,7 @@
 FROM fedora
 
-ARG HELM_2_VERSION=2.16.3
-ARG HELM_3_VERSION=3.1.0
+ARG HELM_2_VERSION=2.16.5
+ARG HELM_3_VERSION=3.1.2
 ARG GH_CLI_VERSION=0.6.2
 
 RUN dnf upgrade -y && dnf install -y awscli wget kubernetes-client git sed hub openssh-clients jq && dnf clean all
