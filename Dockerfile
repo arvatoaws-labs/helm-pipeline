@@ -1,9 +1,12 @@
+FROM mikefarah/yq AS yq
 FROM fedora
 
 ARG HELM_2_VERSION=2.16.7
 ARG HELM_3_VERSION=3.2.1
 ARG GH_CLI_VERSION=0.6.2
 ARG EKSCTL_VERSION=0.18.0
+
+COPY --from=yq /usr/bin/yq /usr/bin/
 
 RUN dnf upgrade -y && dnf install -y awscli wget kubernetes-client git sed hub openssh-clients jq && dnf clean all
 RUN wget https://get.helm.sh/helm-v${HELM_2_VERSION}-linux-amd64.tar.gz && \
@@ -27,3 +30,6 @@ helm init --client-only && \
 helm plugin install https://github.com/helm/helm-2to3
 
 RUN wget https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_Linux_amd64.tar.gz
+ADD eksctl-scripts/update-cluster.sh /usr/local/bin/
+ADD eksctl-scripts/update-nodegroups.sh /usr/local/bin/
+ADD eksctl-scripts/update-utils.sh /usr/local/bin/
