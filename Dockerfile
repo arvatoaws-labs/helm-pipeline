@@ -29,7 +29,7 @@ ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts && \
 helm init --client-only && \
 helm plugin install https://github.com/helm/helm-2to3
 
-RUN wget https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_Linux_amd64.tar.gz
+RUN wget https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_Linux_amd64.tar.gz && tar xf eksctl_Linux_amd64.tar.gz && mv eksctl /usr/bin/ && rm -rf eksctl_Linux_amd64.tar.gz
 ADD eksctl-scripts/update-cluster.sh /usr/local/bin/
 ADD eksctl-scripts/update-nodegroups.sh /usr/local/bin/
 ADD eksctl-scripts/update-utils.sh /usr/local/bin/
