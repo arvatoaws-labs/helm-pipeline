@@ -4,11 +4,11 @@ FROM fedora
 ARG HELM_2_VERSION=2.16.7
 ARG HELM_3_VERSION=3.2.1
 ARG GH_CLI_VERSION=0.6.2
-ARG EKSCTL_VERSION=0.19.0
+ARG EKSCTL_VERSION=0.20.0-rc.0
 
 COPY --from=yq /usr/bin/yq /usr/bin/
 
-RUN dnf upgrade -y && dnf install -y awscli wget kubernetes-client git sed hub openssh-clients jq && dnf clean all
+RUN dnf upgrade -y && dnf install -y awscli wget curl kubernetes-client git sed hub openssh-clients jq && dnf clean all
 RUN wget https://get.helm.sh/helm-v${HELM_2_VERSION}-linux-amd64.tar.gz && \
 tar xf helm-v${HELM_2_VERSION}-linux-amd64.tar.gz && mv linux-amd64/{helm,tiller} /usr/bin && \
 rm -rf linux-amd64 helm-v${HELM_2_VERSION}-linux-amd64.tar.gz && \
@@ -33,3 +33,5 @@ RUN wget https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION
 ADD eksctl-scripts/update-cluster.sh /usr/local/bin/
 ADD eksctl-scripts/update-nodegroups.sh /usr/local/bin/
 ADD eksctl-scripts/update-utils.sh /usr/local/bin/
+ADD eksctl-scripts/silence.sh /usr/local/bin/
+ADD eksctl-scripts/unsilence.sh /usr/local/bin/
