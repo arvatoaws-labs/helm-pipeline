@@ -10,11 +10,11 @@ CLUSTER_NAME=$(cat $CLUSTER_FILE | yq r - metadata.name)
 
 NUMBER_OF_NODEGROUPS=$(yq r $CLUSTER_FILE --length nodeGroups)
 for (( i=0; i<NUMBER_OF_NODEGROUPS; i++ )); do
-  NEW_NAME=$(yq r prod.yaml -j | jq ".nodeGroups[$i].name" | tr -d '"' | sed -i "s/-v[0-9a-f]\+$/-v$COMMIT_ID/g")
-  echo $NEW_NAME
-  yq r $CLUSTER_FILE -j | jq ".nodeGroups[$i].name = \"$NEW_NAME\"" | yq r --prettyPrint - > $CLUSTER_FILE
+  NEW_NAME=$(yq r prod.yaml -j | jq ".nodeGroups[$i].name" | tr -d '"' | sed -e "s/-v[0-9a-f]\+$/-v$COMMIT_ID/g")
+  yq r $CLUSTER_FILE -j | jq ".nodeGroups[$i].name = \"$NEW_NAME\"" | yq r --prettyPrint - > .tmpcopy
+  mv .tmpcopy $CLUSTER_FILE
   eksctl get nodegroup --cluster $CLUSTER_NAME
-  echo "eksctl create nodegroup -f $CLUSTER_FILE"
-  echo "eksctl delete nodegroup --only-missing -f $CLUSTER_FILE $OPTIONS"
+  eksctl create nodegroup -f $CLUSTER_FILE
+  eksctl delete nodegroup --only-missing -f $CLUSTER_FILE $OPTIONS
   sleep 60
-end
+done
