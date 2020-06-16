@@ -7,6 +7,7 @@ set -x
 
 CLUSTER_NAME=$(cat $CLUSTER_FILE | yq r - metadata.name)
 : "${COMMIT_ID:=$(git rev-parse HEAD)}"
+: "${WAIT_TIME:=60}"
 
 eksctl get nodegroup --cluster $CLUSTER_NAME
 
@@ -19,7 +20,7 @@ for (( i=0; i<NUMBER_OF_NODEGROUPS; i++ )); do
   yq r $CLUSTER_FILE -j | jq ".nodeGroups[$i].name = \"$NEW_NAME\"" | yq r --prettyPrint - | sed -e "s/ yes$/ \"yes\"/g" | sed -e "s/ no$/ \"no\"/g" > .tmpcopy
   mv .tmpcopy $CLUSTER_FILE
   eksctl create nodegroup -f $CLUSTER_FILE
-  sleep 60
+  sleep $WAIT_TIME
   eksctl delete nodegroup --only-missing -f $CLUSTER_FILE $OPTIONS
 done
 
