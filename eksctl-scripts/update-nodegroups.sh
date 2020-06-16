@@ -14,4 +14,5 @@ sed -i "s/-v[0-9a-f]\+$/-v$COMMIT_ID/g" $CLUSTER_FILE
 # git push
 eksctl get nodegroup --cluster $CLUSTER_NAME
 eksctl create nodegroup -f $CLUSTER_FILE
+sleep 60
 eksctl delete nodegroup --only-missing -f $CLUSTER_FILE $OPTIONS
