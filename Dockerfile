@@ -5,6 +5,7 @@ ARG HELM_2_VERSION=2.16.7
 ARG HELM_3_VERSION=3.2.2
 ARG GH_CLI_VERSION=0.6.2
 ARG EKSCTL_VERSION=0.21.0
+ARG POPEYE_VERSION=0.8.6
 
 COPY --from=yq /usr/bin/yq /usr/bin/
 
@@ -35,3 +36,5 @@ ADD eksctl-scripts/update-nodegroups.sh /usr/local/bin/
 ADD eksctl-scripts/update-utils.sh /usr/local/bin/
 ADD eksctl-scripts/silence.sh /usr/local/bin/
 ADD eksctl-scripts/unsilence.sh /usr/local/bin/
+
+RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_x86_64.tar.gz && tar xf popeye_Linux_x86_64.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_x86_64.tar.gz
