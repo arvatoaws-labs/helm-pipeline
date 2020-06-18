@@ -6,6 +6,7 @@ ARG HELM_3_VERSION=3.2.2
 ARG GH_CLI_VERSION=0.6.2
 ARG EKSCTL_VERSION=0.21.0
 ARG POPEYE_VERSION=0.8.6
+ARG FLUXCTL_VERSION=1.19.0
 
 COPY --from=yq /usr/bin/yq /usr/bin/
 
@@ -31,10 +32,8 @@ helm init --client-only && \
 helm plugin install https://github.com/helm/helm-2to3
 
 RUN wget https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_Linux_amd64.tar.gz && tar xf eksctl_Linux_amd64.tar.gz && mv eksctl /usr/bin/ && rm -rf eksctl_Linux_amd64.tar.gz
-ADD eksctl-scripts/update-cluster.sh /usr/local/bin/
-ADD eksctl-scripts/update-nodegroups.sh /usr/local/bin/
-ADD eksctl-scripts/update-utils.sh /usr/local/bin/
-ADD eksctl-scripts/silence.sh /usr/local/bin/
-ADD eksctl-scripts/unsilence.sh /usr/local/bin/
+ADD eksctl-scripts/* /usr/local/bin/
 
 RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_x86_64.tar.gz && tar xf popeye_Linux_x86_64.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_x86_64.tar.gz
+
+RUN wget https://github.com/fluxcd/flux/releases/download/$FLUXCTL_VERSION/fluxctl_linux_amd64 && mv fluxctl_linux_amd64 /usr/bin/fluxctl
