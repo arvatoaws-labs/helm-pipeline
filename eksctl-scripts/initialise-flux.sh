@@ -27,8 +27,7 @@ sleep 10
 helm upgrade -i helm-operator -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator # TODO: allow fixed version
 sleep 60
 if [ "$(update-or-create.sh)" == "false" ]; then
-  # TODO Doesn't work yet
-  gh api -X POST repos/arvatoaws/$GIT_REPO/keys -F "{\"title\":\"flux-$ENVIR\",\"key\":\"$(fluxctl identity --k8s-fwd-ns fluxcd)\",\"read_only\":false}"
+  gh api -X POST repos/arvatoaws/$GIT_REPO/keys -F title="flux-$ENVIR" -F key="$(fluxctl identity --k8s-fwd-ns fluxcd)" -F read_only=false
 
   yq w -i flux-helm-values/$ENVIR_FILE prometheus.enabled true
   yq w -i flux-helm-values/helm_operator.yaml prometheus.serviceMonitor.create true
