@@ -12,7 +12,7 @@ ENVIR=$(echo $ENVIR_FILE | cut -d '.' -f 1)
 
 kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/$(cat base-templates/cert-manager/release.yaml | yq r - spec.chart.version)/cert-manager.crds.yaml
 
-if [ "$(update-or-create.sh)" == "true" ] && [ $(helm ls -n fluxcd | grep flux- | grep deployed | wc -l) -gt 0 ] && [ $(helm ls -n fluxcd | grep helm-operator | grep deployed | wc -l) -gt 0 ] && [ "$(helm get values -n fluxcd flux | yq r - prometheus.serviceMonitor.create)" == "true" ] && [ "$(helm get values -n fluxcd helm-operator | yq r - prometheus.serviceMonitor.create)" == "true" ] && [ $(helm get values -n fluxcd flux | yq r - additionalArgs --length) -gt 1 ] ; then
+if [ "$(update-or-create.sh)" == "true" ] && [ $(helm3 ls -n fluxcd | grep flux- | grep deployed | wc -l) -gt 0 ] && [ $(helm3 ls -n fluxcd | grep helm-operator | grep deployed | wc -l) -gt 0 ] && [ "$(helm3 get values -n fluxcd flux | yq r - prometheus.serviceMonitor.create)" == "true" ] && [ "$(helm3 get values -n fluxcd helm-operator | yq r - prometheus.serviceMonitor.create)" == "true" ] && [ $(helm3 get values -n fluxcd flux | yq r - additionalArgs --length) -gt 1 ] ; then
   echo "Service Monitors and Fluxcloud already integrated into flux"
   HELM_TOBE_REDONE="false"
 else
@@ -23,19 +23,19 @@ else
   HELM_TOBE_REDONE="true"
 fi
 
-helm repo add fluxcd https://charts.fluxcd.io
-helm repo update
+helm3 repo add fluxcd https://charts.fluxcd.io
+helm3 repo update
 kubectl create namespace fluxcd
 if [ "$FLUX_VERSION" == "latest" ]; then
-  helm upgrade -i flux -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
+  helm3 upgrade -i flux -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
 else
-  helm upgrade -i flux --version $FLUX_VERSION -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
+  helm3 upgrade -i flux --version $FLUX_VERSION -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
 fi
 sleep 10
 if [ "$HELM_OPERATOR_VERSION" == "latest" ]; then
-  helm upgrade -i helm-operator -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
+  helm3 upgrade -i helm-operator -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
 else
-  helm upgrade -i helm-operator --version $HELM_OPERATOR_VERSION -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
+  helm3 upgrade -i helm-operator --version $HELM_OPERATOR_VERSION -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
 fi
 sleep 60
 if [ "$(update-or-create.sh)" == "false" ]; then
@@ -70,14 +70,14 @@ if [ "$HELM_TOBE_REDONE" == "true" ]; then
     fi
   done
   if [ "$FLUX_VERSION" == "latest" ]; then
-    helm upgrade -i flux -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
+    helm3 upgrade -i flux -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
   else
-    helm upgrade -i flux --version $FLUX_VERSION -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
+    helm3 upgrade -i flux --version $FLUX_VERSION -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
   fi
   sleep 10
   if [ "$HELM_OPERATOR_VERSION" == "latest" ]; then
-    helm upgrade -i helm-operator -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
+    helm3 upgrade -i helm-operator -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
   else
-    helm upgrade -i helm-operator --version $HELM_OPERATOR_VERSION -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
+    helm3 upgrade -i helm-operator --version $HELM_OPERATOR_VERSION -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
   fi
 fi
