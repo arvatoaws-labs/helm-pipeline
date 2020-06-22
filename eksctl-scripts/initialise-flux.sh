@@ -7,8 +7,8 @@ echo "eksctl version:"
 eksctl version --output json
 
 CLUSTER_NAME=$(cat $CLUSTER_FILE | yq r - metadata.name)
-ENVIR_FILE=$(echo $CLUSTER_FILE | rev | cut -d '/' -f 1 | rev)
-ENVIR=$(echo $ENVIR_FILE | cut -d '.' -f 1)
+ENVIR_FILE=$(echo $CLUSTER_FILE | rev | cut -d '/' -f 1 | rev)
+ENVIR=$(echo $ENVIR_FILE | cut -d '.' -f 1)
 
 kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/$(cat base-templates/cert-manager/release.yaml | yq r - spec.chart.version)/cert-manager.crds.yaml
 
