@@ -26,9 +26,17 @@ fi
 helm repo add fluxcd https://charts.fluxcd.io
 helm repo update
 kubectl create namespace fluxcd
-helm upgrade -i flux -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux # TODO: allow fixed version
+if [ "$FLUX_VERSION" == "latest" ]; then
+  helm upgrade -i flux -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
+else
+  helm upgrade -i flux --version $FLUX_VERSION -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
+fi
 sleep 10
-helm upgrade -i helm-operator -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator # TODO: allow fixed version
+if [ "$HELM_OPERATOR_VERSION" == "latest" ]; then
+  helm upgrade -i helm-operator -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
+else
+  helm upgrade -i helm-operator --version $HELM_OPERATOR_VERSION -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
+fi
 sleep 60
 if [ "$(update-or-create.sh)" == "false" ]; then
   gh api -X POST repos/arvatoaws/$GIT_REPO/keys -F title="flux-$ENVIR" -F key="$(fluxctl identity --k8s-fwd-ns fluxcd)" -F read_only=false
@@ -61,7 +69,15 @@ if [ "$HELM_TOBE_REDONE" == "true" ]; then
       exit 1
     fi
   done
-  helm upgrade -i flux -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux # TODO: allow fixed version
+  if [ "$FLUX_VERSION" == "latest" ]; then
+    helm upgrade -i flux -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
+  else
+    helm upgrade -i flux --version $FLUX_VERSION -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
+  fi
   sleep 10
-  helm upgrade -i helm-operator -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator # TODO: allow fixed version
+  if [ "$HELM_OPERATOR_VERSION" == "latest" ]; then
+    helm upgrade -i helm-operator -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
+  else
+    helm upgrade -i helm-operator --version $HELM_OPERATOR_VERSION -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
+  fi
 fi
