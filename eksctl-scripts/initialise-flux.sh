@@ -56,6 +56,10 @@ if [ "$HELM_OPERATOR_VERSION" == "latest" ]; then
 else
   helm3 upgrade -i helm-operator --version $HELM_OPERATOR_VERSION -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
 fi
+mkdir -p ~/.config/gh/
+echo "github.com:" > ~/.config/gh/hosts.yml
+echo "  user: jenkins-arvato" >> ~/.config/gh/hosts.yml
+echo "  oauth_token: $GITHUB_OAUTH_TOKEN" >> ~/.config/gh/hosts.yml
 sleep 60
 KEY=$(fluxctl identity --k8s-fwd-ns fluxcd)
 if [ $(gh api repos/arvatoaws/$GIT_REPO/keys | jq ". as \$f | \"$KEY\" | IN(\$f[].key)") == "false" ]; then
