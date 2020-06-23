@@ -29,6 +29,7 @@ if [ $(helm3 ls -n fluxcd | grep flux- | grep deployed | wc -l) -gt 0 ] && [ $(h
   echo "Service Monitors and Fluxcloud already integrated into flux"
   HELM_TOBE_REDONE="false"
 else
+  echo "Installing without service monitors and fluxcloud first"
   yq w -i flux-helm-values/$ENVIR_FILE prometheus.serviceMonitor.enabled false
   yq w -i flux-helm-values/helm_operator.yaml prometheus.serviceMonitor.create false
   yq r flux-helm-values/$ENVIR_FILE -j | jq '.additionalArgs = ["--manifest-generation=true"]' | yq r --prettyPrint - > .tmpcopy
@@ -57,6 +58,7 @@ if [ $(gh api repos/arvatoaws/$GIT_REPO/keys | jq ". as \$f | \"$KEY\" | IN(\$f[
 fi
 
 if [ "$HELM_TOBE_REDONE" == "true" ]; then
+  echo "Fixing flux by readding service monitors and fluxcloud"
   yq w -i flux-helm-values/$ENVIR_FILE prometheus.serviceMonitor.enabled true
   yq w -i flux-helm-values/helm_operator.yaml prometheus.serviceMonitor.create true
   yq r flux-helm-values/$ENVIR_FILE -j | jq '.additionalArgs = ["--manifest-generation=true","--connect=ws://fluxcloud"]' | yq r --prettyPrint - > .tmpcopy
