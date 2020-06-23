@@ -19,7 +19,7 @@ wget https://get.helm.sh/helm-v${HELM_3_VERSION}-linux-amd64.tar.gz && \
 tar xf helm-v${HELM_3_VERSION}-linux-amd64.tar.gz && \
 mv linux-amd64/helm /usr/bin/helm3 && \
 rm -rf linux-amd64 helm-v${HELM_3_VERSION}-linux-amd64.tar.gz
-RUN dnf install https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_amd64.rpm
+RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_amd64.rpm
 ADD migrate-helm.sh /usr/local/bin/migrate-helm.sh
 ADD create-ns.sh /usr/local/bin/create-ns.sh
 ADD download-gh-release.sh /usr/local/bin/download-gh-release.sh
