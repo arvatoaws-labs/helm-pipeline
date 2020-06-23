@@ -6,10 +6,15 @@
 echo "eksctl version:"
 eksctl version --output json
 
+echo "Cluster File: $CLUSTER_FILE"
 ACCOUNT=$(aws sts get-caller-identity | jq '.Account' | tr -d '"')
+echo "Account: $ACCOUNT"
 CLUSTER_NAME=$(cat $CLUSTER_FILE | yq r - metadata.name)
+echo "Cluster Name: $CLUSTER_NAME"
 ENVIR_FILE=$(echo $CLUSTER_FILE | rev | cut -d '/' -f 1 | rev)
+echo "Envir File: $ENVIR_FILE"
 ENVIR=$(echo $ENVIR_FILE | cut -d '.' -f 1)
+echo "Envir: $ENVIR"
 
 kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/$(cat base-templates/cert-manager/release.yaml | yq r - spec.chart.version)/cert-manager.crds.yaml
 
@@ -30,7 +35,7 @@ if [ $(helm3 ls -n fluxcd | grep flux- | grep deployed | wc -l) -gt 0 ] && [ $(h
   HELM_TOBE_REDONE="false"
 else
   echo "Installing without service monitors and fluxcloud first"
-  yq w -i flux-helm-values/$ENVIR_FILE prometheus.serviceMonitor.enabled false
+  yq w -i flux-helm-values/$ENVIR_FILE prometheus.serviceMonitor.create false
   yq w -i flux-helm-values/helm_operator.yaml prometheus.serviceMonitor.create false
   yq r flux-helm-values/$ENVIR_FILE -j | jq '.additionalArgs = ["--manifest-generation=true"]' | yq r --prettyPrint - > .tmpcopy
   mv .tmpcopy flux-helm-values/$ENVIR_FILE
