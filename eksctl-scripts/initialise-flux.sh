@@ -64,7 +64,7 @@ fi
 
 if [ "$HELM_TOBE_REDONE" == "true" ]; then
   echo "Fixing flux by readding service monitors and fluxcloud"
-  yq w -i flux-helm-values/$ENVIR_FILE prometheus.serviceMonitor.enabled true
+  yq w -i flux-helm-values/$ENVIR_FILE prometheus.serviceMonitor.create true
   yq w -i flux-helm-values/helm_operator.yaml prometheus.serviceMonitor.create true
   yq r flux-helm-values/$ENVIR_FILE -j | jq '.additionalArgs = ["--manifest-generation=true","--connect=ws://fluxcloud"]' | yq r --prettyPrint - > .tmpcopy
   mv .tmpcopy flux-helm-values/$ENVIR_FILE
