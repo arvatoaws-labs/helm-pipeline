@@ -51,8 +51,9 @@ else
   helm3 upgrade -i helm-operator --version $HELM_OPERATOR_VERSION -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
 fi
 sleep 60
-if [ "$(update-or-create.sh)" == "false" ]; then # TODO: Replace with check for upload? How to
-  gh api -X POST repos/arvatoaws/$GIT_REPO/keys -F title="flux-$ENVIR" -F key="$(fluxctl identity --k8s-fwd-ns fluxcd)" -F read_only=false
+KEY=$(fluxctl identity --k8s-fwd-ns fluxcd)
+if [ $(gh api repos/arvatoaws/$GIT_REPO/keys | jq ". as \$f | \"$KEY\" | IN(\$f[].key)") == "false" ]; then
+  gh api -X POST repos/arvatoaws/$GIT_REPO/keys -F title="flux-$ENVIR" -F key="$KEY" -F read_only=false
 fi
 
 if [ "$HELM_TOBE_REDONE" == "true" ]; then
