@@ -63,7 +63,8 @@ echo "  oauth_token: $GITHUB_OAUTH_TOKEN" >> ~/.config/gh/hosts.yml
 echo "git_protocol: https" > ~/.config/gh/config.yml
 sleep 60
 KEY=$(fluxctl identity --k8s-fwd-ns fluxcd)
-HAS_KEY=$(gh api repos/arvatoaws/$GIT_REPO/keys | jq ". as \$f | \"$KEY\" | IN(\$f[].key)")
+MOD_KEY=$(echo "$KEY" | cut -d ' ' -f 1,2)
+HAS_KEY=$(gh api repos/arvatoaws/$GIT_REPO/keys | jq ". as \$f | \"$MOD_KEY\" | IN(\$f[].key)")
 if [ "$HAS_KEY" == "false" ]; then
   HAS_KEY_NAME=$(gh api repos/arvatoaws/$GIT_REPO/keys | jq ". as \$f | \"flux-$ENVIR\" | IN(\$f[].title)")
   if [ "$HAS_KEY_NAME" == "true" ]; then
