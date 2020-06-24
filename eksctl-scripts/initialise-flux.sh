@@ -60,6 +60,7 @@ mkdir -p ~/.config/gh/
 echo "github.com:" > ~/.config/gh/hosts.yml
 echo "  user: jenkins-arvato" >> ~/.config/gh/hosts.yml
 echo "  oauth_token: $GITHUB_OAUTH_TOKEN" >> ~/.config/gh/hosts.yml
+echo "git_protocol: https" > ~/.config/gh/config.yml
 sleep 60
 KEY=$(fluxctl identity --k8s-fwd-ns fluxcd)
 if [ $(gh api repos/arvatoaws/$GIT_REPO/keys | jq ". as \$f | \"$KEY\" | IN(\$f[].key)") == "false" ]; then
