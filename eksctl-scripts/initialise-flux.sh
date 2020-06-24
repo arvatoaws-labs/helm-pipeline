@@ -66,12 +66,12 @@ KEY=$(fluxctl identity --k8s-fwd-ns fluxcd)
 MOD_KEY=$(echo "$KEY" | cut -d ' ' -f 1,2)
 HAS_KEY=$(gh api repos/arvatoaws/$GIT_REPO/keys | jq ". as \$f | \"$MOD_KEY\" | IN(\$f[].key)")
 if [ "$HAS_KEY" == "false" ]; then
-  HAS_KEY_NAME=$(gh api repos/arvatoaws/$GIT_REPO/keys | jq ". as \$f | \"flux-$ENVIR\" | IN(\$f[].title)")
+  HAS_KEY_NAME=$(gh api repos/arvatoaws/$GIT_REPO/keys | jq ". as \$f | \"flux-$ACCOUNT-$ENVIR\" | IN(\$f[].title)")
   if [ "$HAS_KEY_NAME" == "true" ]; then
-    KEY_ID=$(gh api repos/arvatoaws/$GIT_REPO/keys | jq ".[] | select(.title == \"flux-$ENVIR\") | .id")
+    KEY_ID=$(gh api repos/arvatoaws/$GIT_REPO/keys | jq ".[] | select(.title == \"flux-$ACCOUNT-$ENVIR\") | .id")
     gh api -X DELETE repos/arvatoaws/$GIT_REPO/keys/$KEY_ID
   fi
-  gh api -X POST repos/arvatoaws/$GIT_REPO/keys -F title="flux-$ENVIR" -F key="$KEY" -F read_only=false
+  gh api -X POST repos/arvatoaws/$GIT_REPO/keys -F title="flux-$ACCOUNT-$ENVIR" -F key="$KEY" -F read_only=false
 fi
 
 if [ "$HELM_TOBE_REDONE" == "true" ]; then
