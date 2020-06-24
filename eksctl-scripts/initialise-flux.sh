@@ -63,8 +63,14 @@ echo "  oauth_token: $GITHUB_OAUTH_TOKEN" >> ~/.config/gh/hosts.yml
 echo "git_protocol: https" > ~/.config/gh/config.yml
 sleep 60
 KEY=$(fluxctl identity --k8s-fwd-ns fluxcd)
-if [ $(gh api repos/arvatoaws/$GIT_REPO/keys | jq ". as \$f | \"$KEY\" | IN(\$f[].key)") == "false" ]; then
-  gh api -X POST repos/arvatoaws/$GIT_REPO/keys -F title="flux-$ENVIR" -F key="$KEY" -F read_only=false
+HAS_KEY=$(gh api repos/arvatoaws/$GIT_REPO/keys | jq ". as \$f | \"$KEY\" | IN(\$f[].key)")
+if [ "$HAS_KEY" == "false" ]; then
+  HAS_KEY_NAME=$(gh api repos/arvatoaws/$GIT_REPO/keys | jq ". as \$f | \"flux-$ENVIR\" | IN(\$f[].title)")
+  if [ "$HAS_KEY_NAME" == "true" ]; then
+    KEY_ID=$(gh api repos/arvatoaws/$GIT_REPO/keys | jq ".[] | select(.title == \"flux-$ENVIR\") | .id")
+    gh api -X DELETE repos/arvatoaws/$GIT_REPO/keys/$KEY_ID
+  fi
+  gh api -X POST repos/arvatoaws/$GIT_REPO/keys -F title="flux-$ENVIR" -F key="$KEY" -F read_only=false # TODO What if key with equal name, but different content exists?
 fi
 
 if [ "$HELM_TOBE_REDONE" == "true" ]; then
