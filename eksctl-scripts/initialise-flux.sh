@@ -70,7 +70,7 @@ if [ "$HAS_KEY" == "false" ]; then
     KEY_ID=$(gh api repos/arvatoaws/$GIT_REPO/keys | jq ".[] | select(.title == \"flux-$ENVIR\") | .id")
     gh api -X DELETE repos/arvatoaws/$GIT_REPO/keys/$KEY_ID
   fi
-  gh api -X POST repos/arvatoaws/$GIT_REPO/keys -F title="flux-$ENVIR" -F key="$KEY" -F read_only=false # TODO What if key with equal name, but different content exists?
+  gh api -X POST repos/arvatoaws/$GIT_REPO/keys -F title="flux-$ENVIR" -F key="$KEY" -F read_only=false
 fi
 
 if [ "$HELM_TOBE_REDONE" == "true" ]; then
