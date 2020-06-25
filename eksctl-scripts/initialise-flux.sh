@@ -80,6 +80,7 @@ if [ "$HELM_TOBE_REDONE" == "true" ]; then
   yq w -i flux-helm-values/helm_operator.yaml prometheus.serviceMonitor.create true
   yq r flux-helm-values/$ENVIR_FILE -j | jq '.additionalArgs = ["--manifest-generation=true","--connect=ws://fluxcloud"]' | yq r --prettyPrint - > .tmpcopy
   mv .tmpcopy flux-helm-values/$ENVIR_FILE
+  fluxctl sync --k8s-fwd-ns fluxcd
   let j=0
   until [ $(kubectl get po -n fluxcd | grep Running | grep fluxcloud | wc -l) -gt 0 ]
   do
