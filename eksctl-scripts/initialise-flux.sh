@@ -87,7 +87,7 @@ if [ "$HELM_TOBE_REDONE" == "true" ]; then
     echo "fluxcloud not available yet"
     sleep 20
     ((j=j+1))
-    if [ $j -gt 20 ]; then
+    if [ $j -gt 50 ]; then
       echo "fluxcloud failed to show up"
       exit 1
     fi
@@ -98,7 +98,7 @@ if [ "$HELM_TOBE_REDONE" == "true" ]; then
     echo "Service Monitors not available yet"
     sleep 20
     ((i=i+1))
-    if [ $i -gt 20 ]; then
+    if [ $i -gt 50 ]; then
       echo "prometheus service monitors failed to show up"
       exit 1
     fi
