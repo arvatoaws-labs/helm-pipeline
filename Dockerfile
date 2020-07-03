@@ -4,12 +4,13 @@ FROM fedora
 ARG HELM_2_VERSION=2.16.9
 ARG HELM_3_VERSION=3.2.4
 ARG GH_CLI_VERSION=0.10.1
-ARG EKSCTL_VERSION=0.22.0
+ARG EKSCTL_VERSION=0.23.0-rc.1
 ARG POPEYE_VERSION=0.8.6
 ARG FLUXCTL_VERSION=1.19.0
 
 COPY --from=yq /usr/bin/yq /usr/bin/
 
+# base
 RUN dnf upgrade -y && dnf install -y awscli wget curl kubernetes-client git sed hub openssh-clients jq && dnf clean all
 
 # helm
