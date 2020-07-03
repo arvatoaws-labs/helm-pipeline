@@ -8,6 +8,7 @@ if [ "$(update-or-create.sh)" == "true" ]; then
   update-utils.sh
 else
   create-cluster.sh
+  create-fargate-profile.sh
 fi
 
 initialise-flux.sh
