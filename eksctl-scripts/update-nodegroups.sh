@@ -5,6 +5,18 @@ set -x
 # OPTIONS
 # COMMIT_ID Override
 
+if [ -z ${CLUSTER_FILE+x} ];
+then
+    echo "missing ENV CLUSTER_FILE"
+    exit 1
+fi
+
+if ! [ -f $CLUSTER_FILE ];
+then
+    echo "cannot read file $CLUSTER_FILE"
+    exit 1
+fi
+
 CLUSTER_NAME=$(cat $CLUSTER_FILE | yq r - metadata.name)
 : "${COMMIT_ID:=$(git rev-parse HEAD)}"
 : "${WAIT_TIME:=60}"

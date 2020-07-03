@@ -1,4 +1,17 @@
 #!/bin/bash
+
+if [ -z ${CLUSTER_FILE+x} ];
+then
+    echo "missing ENV CLUSTER_FILE"
+    exit 1
+fi
+
+if ! [ -f $CLUSTER_FILE ];
+then
+    echo "cannot read file $CLUSTER_FILE"
+    exit 1
+fi
+
 CLUSTER_NAME=$(cat $CLUSTER_FILE | yq r - metadata.name)
 START_DATE=$(date --utc +%FT%T.%3NZ)
 END_DATE=$(date --utc +%FT%T.%3NZ -d "+2 hours")
