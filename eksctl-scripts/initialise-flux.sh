@@ -42,7 +42,7 @@ cat .tmpcurrentaws-auth
 kubectl apply -f .tmpcurrentaws-auth
 rm .tmpcurrentaws-auth
 
-if [ $(helm3 ls -n fluxcd | grep flux- | grep deployed | wc -l) -gt 0 ] && [ $(helm3 ls -n fluxcd | grep helm-operator | grep deployed | wc -l) -gt 0 ] && [ "$(helm3 get values -n fluxcd flux | yq r - prometheus.serviceMonitor.create)" == "true" ] && [ "$(helm3 get values -n fluxcd helm-operator | yq r - prometheus.serviceMonitor.create)" == "true" ] && [ $(helm3 get values -n fluxcd flux | yq r - additionalArgs --length) -gt 1 ] ; then
+if [ $(helm3 ls -n fluxcd | grep flux- | grep deployed | wc -l) -gt 0 ] && [ $(helm3 ls -n fluxcd | grep helm-operator | grep deployed | wc -l) -gt 0 ] && [ "$(helm3 get values -n fluxcd flux | yq r - prometheus.serviceMonitor.create)" == "true" ] && [ "$(helm3 get values -n fluxcd helm-operator | yq r - prometheus.serviceMonitor.create)" == "true" ] && [ $(kubectl get crd | grep servicemonitor | wc -l) -gt 0 ] && [ $(helm3 get values -n fluxcd flux | yq r - additionalArgs --length) -gt 1 ] ; then
   echo "Service Monitors and Fluxcloud already integrated into flux"
   HELM_TOBE_REDONE="false"
 else
