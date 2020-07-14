@@ -60,17 +60,21 @@ kubectl create namespace fluxcd
 if [ "$FLUX_VERSION" == "latest" ]; then
   helm3 upgrade -i flux -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
 else
-  if [ "$HELM_TOBE_REDONE" == "true" ]; then
-    helm3 upgrade -i flux --version 0.6 -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
-  else
-    helm3 upgrade -i flux --version $FLUX_VERSION -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
-  fi
+  helm3 upgrade -i flux --version $FLUX_VERSION -f flux-helm-values/$ENVIR_FILE --namespace fluxcd fluxcd/flux
 fi
 sleep 10
 if [ "$HELM_OPERATOR_VERSION" == "latest" ]; then
-  helm3 upgrade -i helm-operator -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
+  if [ "$HELM_TOBE_REDONE" == "true" ]; then
+    helm3 upgrade -i helm-operator --version 0.6 -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
+  else
+    helm3 upgrade -i helm-operator -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
+  fi
 else
-  helm3 upgrade -i helm-operator --version $HELM_OPERATOR_VERSION -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
+  if [ "$HELM_TOBE_REDONE" == "true" ]; then
+    helm3 upgrade -i helm-operator --version 0.6 -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
+  else
+    helm3 upgrade -i helm-operator --version $HELM_OPERATOR_VERSION -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
+  fi
 fi
 mkdir -p ~/.config/gh/
 echo "github.com:" > ~/.config/gh/hosts.yml
