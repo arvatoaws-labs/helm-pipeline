@@ -7,6 +7,7 @@ ARG GH_CLI_VERSION=0.10.1
 ARG EKSCTL_VERSION=0.24.0-rc.0
 ARG POPEYE_VERSION=0.8.6
 ARG FLUXCTL_VERSION=1.19.0
+ARG VELERO_VERSION=1.4.2
 
 COPY --from=yq /usr/bin/yq /usr/bin/
 
@@ -38,3 +39,5 @@ ADD eksctl-scripts/* /usr/local/bin/
 RUN wget https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_Linux_amd64.tar.gz && tar xf eksctl_Linux_amd64.tar.gz && mv eksctl /usr/bin/ && rm -rf eksctl_Linux_amd64.tar.gz && \
 wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_x86_64.tar.gz && tar xf popeye_Linux_x86_64.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_x86_64.tar.gz && \
 wget https://github.com/fluxcd/flux/releases/download/$FLUXCTL_VERSION/fluxctl_linux_amd64 && mv fluxctl_linux_amd64 /usr/bin/fluxctl && chmod +x /usr/bin/fluxctl
+
+RUN wget https://github.com/vmware-tanzu/velero/releases/download/v$VELERO_VERSION/velero-v$VELERO_VERSION-linux-amd64.tar.gz && tar xf velero-v$VELERO_VERSION-linux-amd64.tar.gz && mv velero-v$VELERO_VERSION-linux-amd64/velero /usr/bin/velero && rm -rf velero-v$VELERO_VERSION-linux-amd64.tar.gz velero-v$VELERO_VERSION-linux-amd64
