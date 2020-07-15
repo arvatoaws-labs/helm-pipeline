@@ -94,6 +94,8 @@ if [ "$HAS_KEY" == "false" ]; then
   gh api -X POST repos/arvatoaws/$GIT_REPO/keys -F title="flux-$ACCOUNT-$ENVIR" -F key="$KEY" -F read_only=false
 fi
 
+sleep 60
+
 if [ "$HELM_TOBE_REDONE" == "true" ]; then
   echo "Fixing flux by readding service monitors and fluxcloud"
   yq w -i flux-helm-values/$ENVIR_FILE prometheus.serviceMonitor.create true
