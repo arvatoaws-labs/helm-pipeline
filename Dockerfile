@@ -12,7 +12,7 @@ ARG VELERO_VERSION=1.4.2
 COPY --from=yq /usr/bin/yq /usr/bin/
 
 # base
-RUN dnf upgrade -y && dnf install -y awscli wget curl kubernetes-client git sed hub openssh-clients jq && dnf clean all
+RUN dnf upgrade -y && dnf install -y awscli wget curl kubernetes-client git sed hub openssh-clients jq bc && dnf clean all
 
 # helm
 RUN wget https://get.helm.sh/helm-v${HELM_2_VERSION}-linux-amd64.tar.gz && \

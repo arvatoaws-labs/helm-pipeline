@@ -28,6 +28,12 @@ echo "Envir File: $ENVIR_FILE"
 ENVIR=$(echo $ENVIR_FILE | cut -d '.' -f 1)
 echo "Envir: $ENVIR"
 
+# Backup
+if [ $(velero version | grep "error getting server version" | wc -l) -lt 1 ]; then
+  echo "Performing pre upgrade backup"
+  velero backup create "PrePipelineUpgrade-$(date +%F-%H-%M-%S)" --wait
+fi
+
 kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/$(cat base-templates/cert-manager/release.yaml | yq r - spec.chart.version)/cert-manager.crds.yaml
 
 kubectl get configmaps -n kube-system aws-auth -o yaml > .tmpcurrentaws-auth
@@ -54,6 +60,14 @@ else
   HELM_TOBE_REDONE="true"
 fi
 
+if [ "$HELM_OPERATOR_VERSION" == "latest" ]; then
+  yq w -i flux-helm-values/helm_operator.yaml createCRD false
+else
+  if (( $(echo "$(echo $HELM_OPERATOR_VERSION | cut -d '.' -f 1,2) >= 0.7" | bc -l) )); then
+    yq w -i flux-helm-values/helm_operator.yaml createCRD false
+  fi
+fi
+
 helm3 repo add fluxcd https://charts.fluxcd.io
 helm3 repo update
 kubectl create namespace fluxcd
@@ -64,17 +78,9 @@ else
 fi
 sleep 10
 if [ "$HELM_OPERATOR_VERSION" == "latest" ]; then
-  if [ "$HELM_TOBE_REDONE" == "true" ]; then
-    helm3 upgrade -i helm-operator --version 0.6 -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
-  else
-    helm3 upgrade -i helm-operator -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
-  fi
+  helm3 upgrade -i helm-operator -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
 else
-  if [ "$HELM_TOBE_REDONE" == "true" ]; then
-    helm3 upgrade -i helm-operator --version 0.6 -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
-  else
-    helm3 upgrade -i helm-operator --version $HELM_OPERATOR_VERSION -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
-  fi
+  helm3 upgrade -i helm-operator --version $HELM_OPERATOR_VERSION -f flux-helm-values/helm_operator.yaml --namespace fluxcd fluxcd/helm-operator
 fi
 mkdir -p ~/.config/gh/
 echo "github.com:" > ~/.config/gh/hosts.yml
