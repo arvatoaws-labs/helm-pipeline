@@ -34,7 +34,7 @@ if [ $(velero version | grep "error getting server version" | wc -l) -lt 1 ]; th
   velero backup create "PrePipelineUpgrade-$(date +%F-%H-%M-%S)" --wait
 fi
 
-kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/$(cat base-templates/cert-manager/release.yaml | yq r - spec.chart.version)/cert-manager.crds.yaml
+# Disabled as per Philipps request: kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/$(cat base-templates/cert-manager/release.yaml | yq r - spec.chart.version)/cert-manager.crds.yaml
 
 kubectl get configmaps -n kube-system aws-auth -o yaml > .tmpcurrentaws-auth
 yq d -i .tmpcurrentaws-auth metadata.creationTimestamp
