@@ -31,7 +31,7 @@ for (( i=0; i<NUMBER_OF_NODEGROUPS; i++ )); do
   NEW_NAME=$(yq r $CLUSTER_FILE -j | jq ".nodeGroups[$i].name" | tr -d '"' | sed -e "s/-v[0-9a-f]\+$/-v$COMMIT_ID/g")
   yq r $CLUSTER_FILE -j | jq ".nodeGroups[$i].name = \"$NEW_NAME\"" | yq r --prettyPrint - | sed -e "s/ yes$/ \"yes\"/g" | sed -e "s/ no$/ \"no\"/g" > .tmpcopy
   mv .tmpcopy $CLUSTER_FILE
-  eksctl create nodegroup --version auto -f $CLUSTER_FILE
+  eksctl create nodegroup -f $CLUSTER_FILE
   sleep $WAIT_TIME
   eksctl delete nodegroup --only-missing -f $CLUSTER_FILE $OPTIONS
 done

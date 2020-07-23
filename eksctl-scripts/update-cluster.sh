@@ -22,6 +22,7 @@ if [ "$(yq r $CLUSTER_FILE metadata.version)" == "auto" ]; then
   MAX_SUPPORTED_VERSION=$(eksctl version -o json | jq '.EKSServerSupportedVersions | map(tonumber) | max')
   echo "Setting autoversion to $MAX_SUPPORTED_VERSION for creation"
   sed -i "s/version:\ auto/version:\ \"$MAX_SUPPORTED_VERSION\"/g" $CLUSTER_FILE
+  VERSION_OVERWRITEN="true"
 fi
 
 CLUSTER_NAME=$(cat $CLUSTER_FILE | yq r - metadata.name)
@@ -29,3 +30,7 @@ CURRENT_VERSION=$(eksctl get cluster -o json -n $CLUSTER_NAME | jq ".[].Version"
 
 echo "Current Cluster Version: $CURRENT_VERSION"
 eksctl upgrade cluster -f $CLUSTER_FILE $OPTIONS
+
+if [ "$VERSION_OVERWRITEN" == "true" ]; then
+  sed -i "s/version:\ \"$MAX_SUPPORTED_VERSION\"/version:\ auto/g" $CLUSTER_FILE
+fi
