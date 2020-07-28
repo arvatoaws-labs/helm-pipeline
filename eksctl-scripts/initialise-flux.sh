@@ -31,7 +31,7 @@ echo "Envir: $ENVIR"
 # Backup
 if [ $(velero version | grep "error getting server version" | wc -l) -lt 1 ]; then
   echo "Performing pre upgrade backup"
-  velero backup create "PrePipelineUpgrade-$(date +%F-%H-%M-%S)" --wait
+  velero backup create "prepipelineupgrade-$(date +%F-%H-%M-%S)" --wait
 fi
 
 # Disabled as per Philipps request: kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/$(cat base-templates/cert-manager/release.yaml | yq r - spec.chart.version)/cert-manager.crds.yaml
