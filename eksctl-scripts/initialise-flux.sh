@@ -28,12 +28,6 @@ echo "Envir File: $ENVIR_FILE"
 ENVIR=$(echo $ENVIR_FILE | cut -d '.' -f 1)
 echo "Envir: $ENVIR"
 
-# Backup
-if [ $(velero version | grep "error getting server version" | wc -l) -lt 1 ]; then
-  echo "Performing pre upgrade backup"
-  velero backup create "prepipelineupgrade-$(date +%F-%H-%M-%S)" --wait
-fi
-
 # Disabled as per Philipps request: kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/$(cat base-templates/cert-manager/release.yaml | yq r - spec.chart.version)/cert-manager.crds.yaml
 
 kubectl get configmaps -n kube-system aws-auth -o yaml > .tmpcurrentaws-auth

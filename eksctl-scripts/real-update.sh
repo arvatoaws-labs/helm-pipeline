@@ -2,7 +2,7 @@
 set -x
 
 if [ "$(update-or-create.sh)" == "true" ]; then
-  # Backup
+  backup.sh
   update-cluster.sh
   update-utils.sh
   update-nodegroups.sh
