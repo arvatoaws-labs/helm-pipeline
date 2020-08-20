@@ -11,5 +11,6 @@ else
   create-cluster.sh
   create-fargate-profile.sh
 fi
+oidc-setup.sh
 
 initialise-flux.sh
