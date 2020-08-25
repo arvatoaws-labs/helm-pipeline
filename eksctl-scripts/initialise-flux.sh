@@ -81,7 +81,7 @@ echo "github.com:" > ~/.config/gh/hosts.yml
 echo "  user: jenkins-arvato" >> ~/.config/gh/hosts.yml
 echo "  oauth_token: $GITHUB_OAUTH_TOKEN" >> ~/.config/gh/hosts.yml
 echo "git_protocol: https" > ~/.config/gh/config.yml
-sleep 60
+sleep 90
 KEY=$(fluxctl identity --k8s-fwd-ns fluxcd)
 MOD_KEY=$(echo "$KEY" | cut -d ' ' -f 1,2)
 HAS_KEY=$(gh api repos/arvatoaws/$GIT_REPO/keys | jq ". as \$f | \"$MOD_KEY\" | IN(\$f[].key)")
@@ -94,7 +94,7 @@ if [ "$HAS_KEY" == "false" ]; then
   gh api -X POST repos/arvatoaws/$GIT_REPO/keys -F title="flux-$ACCOUNT-$ENVIR" -F key="$KEY" -F read_only=false
 fi
 
-sleep 60
+sleep 90
 
 if [ "$HELM_TOBE_REDONE" == "true" ]; then
   echo "Fixing flux by readding service monitors and fluxcloud"
