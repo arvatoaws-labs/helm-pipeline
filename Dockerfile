@@ -42,3 +42,6 @@ wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/pop
 wget https://github.com/fluxcd/flux/releases/download/$FLUXCTL_VERSION/fluxctl_linux_amd64 && mv fluxctl_linux_amd64 /usr/bin/fluxctl && chmod +x /usr/bin/fluxctl
 
 RUN wget https://github.com/vmware-tanzu/velero/releases/download/v$VELERO_VERSION/velero-v$VELERO_VERSION-linux-amd64.tar.gz && tar xf velero-v$VELERO_VERSION-linux-amd64.tar.gz && mv velero-v$VELERO_VERSION-linux-amd64/velero /usr/bin/velero && rm -rf velero-v$VELERO_VERSION-linux-amd64.tar.gz velero-v$VELERO_VERSION-linux-amd64
+
+# custom
+ADD custom-scripts/* /usr/local/bin/
