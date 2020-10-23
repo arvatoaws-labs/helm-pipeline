@@ -16,7 +16,7 @@ ADD kubernetes.repo /etc/yum.repos.d/
 RUN sed -i "s/x86_64/`det-arch.sh x c`/" /etc/yum.repos.d/kubernetes.repo
 
 # base
-RUN dnf upgrade -y && dnf install -y awscli wget curl kubectl git hub openssh-clients jq bc && dnf clean all
+RUN dnf upgrade -y && dnf install -y awscli wget curl kubectl git hub openssh-clients jq awscli bc && dnf clean all
 
 # helm
 RUN wget https://get.helm.sh/helm-v${HELM_2_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
