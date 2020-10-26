@@ -12,5 +12,10 @@ else
   create-fargate-profile.sh
 fi
 oidc-setup.sh
+setup-aws-access.sh
 
-initialise-flux.sh
+if [ "$UPDATE_FLUX" == "false" ]; then
+  echo "Skipping Flux upgrade / initialization"
+else
+  initialise-flux.sh
+fi
