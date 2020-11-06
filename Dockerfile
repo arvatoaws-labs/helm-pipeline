@@ -6,6 +6,7 @@ ARG GH_CLI_VERSION=1.1.0
 ARG EKSCTL_VERSION=0.30.0
 ARG POPEYE_VERSION=0.8.10
 ARG FLUXCTL_VERSION=1.21.0
+ARG FLUX_VERSION=0.2.2
 ARG VELERO_VERSION=1.5.1
 ARG YQ_VERSION=3.4.0
 
@@ -46,6 +47,8 @@ wget https://github.com/fluxcd/flux/releases/download/$FLUXCTL_VERSION/fluxctl_l
 wget https://github.com/mikefarah/yq/releases/download/$YQ_VERSION/yq_linux_`det-arch.sh a r` && chmod +x yq_linux_`det-arch.sh a r` && mv yq_linux_`det-arch.sh a r` /usr/bin/yq
 
 RUN wget https://github.com/vmware-tanzu/velero/releases/download/v$VELERO_VERSION/velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz && tar xf velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz && mv velero-v$VELERO_VERSION-linux-`det-arch.sh a r`/velero /usr/bin/velero && rm -rf velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz velero-v$VELERO_VERSION-linux-`det-arch.sh a r`
+
+RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_$FLUX_VERSION_linux_`det-arch.sh a r`.tar.gz && tar xf flux_$FLUX_VERSION_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_$FLUX_VERSION_linux_`det-arch.sh a r`.tar.gz
 
 # custom
 ADD custom-scripts/* /usr/local/bin/
