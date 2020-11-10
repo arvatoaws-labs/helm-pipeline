@@ -48,7 +48,7 @@ wget https://github.com/mikefarah/yq/releases/download/$YQ_VERSION/yq_linux_`det
 
 RUN wget https://github.com/vmware-tanzu/velero/releases/download/v$VELERO_VERSION/velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz && tar xf velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz && mv velero-v$VELERO_VERSION-linux-`det-arch.sh a r`/velero /usr/bin/velero && rm -rf velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz velero-v$VELERO_VERSION-linux-`det-arch.sh a r`
 
-RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_$FLUX_VERSION_linux_`det-arch.sh a r`.tar.gz && tar xf flux_$FLUX_VERSION_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_$FLUX_VERSION_linux_`det-arch.sh a r`.tar.gz
+RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
 
 # custom
 ADD custom-scripts/* /usr/local/bin/
