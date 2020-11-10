@@ -1,18 +1,22 @@
 #!/bin/bash
 
-helm3 repo add fluxcd https://charts.fluxcd.io
-helm3 repo update
+if [ "$FLUXv2" == "true" ]; then
+  flux install --dry-run --arch $ARCH --version $FLUX_VERSION
+else
+  helm3 repo add fluxcd https://charts.fluxcd.io
+  helm3 repo update
 
-echo "Current state of flux:"
-helm3 ls -n fluxcd
-echo "Desired versions:"
-if [ "$FLUX_VERSION" == "latest" ]; then
-  helm3 search repo fluxcd/flux
-else
-  echo "Flux: $FLUX_VERSION"
-fi
-if [ "$HELM_OPERATOR_VERSION" == "latest" ]; then
-  helm3 search repo fluxcd/helm-operator
-else
-  echo "Helm Operator: $HELM_OPERATOR_VERSION"
+  echo "Current state of flux:"
+  helm3 ls -n fluxcd
+  echo "Desired versions:"
+  if [ "$FLUX_VERSION" == "latest" ]; then
+    helm3 search repo fluxcd/flux
+  else
+    echo "Flux: $FLUX_VERSION"
+  fi
+  if [ "$HELM_OPERATOR_VERSION" == "latest" ]; then
+    helm3 search repo fluxcd/helm-operator
+  else
+    echo "Helm Operator: $HELM_OPERATOR_VERSION"
+  fi
 fi
