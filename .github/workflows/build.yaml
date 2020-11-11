@@ -38,4 +38,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           pull: true
-          tags: ghcr.io/arvatoaws/helm-pipeline/release:latest
+          tags: ghcr.io/arvatoaws-labs/helm-pipeline/release:latest
