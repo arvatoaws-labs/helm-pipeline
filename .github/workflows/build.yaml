@@ -27,7 +27,7 @@ jobs:
           driver-opts: image=moby/buildkit:master
 
       - name: Build and Push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v1
         with:
           context: .
           file: ./Dockerfile
