@@ -5,8 +5,6 @@ on:
     branches:
       - main
       - master
-env:
-  REGISTRY_IMAGE: docker.pkg.github.com/arvatoaws/helm-pipeline/
 
 jobs:
   build:
