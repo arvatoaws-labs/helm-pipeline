@@ -26,14 +26,17 @@ jobs:
           version: latest
           driver-opts: image=moby/buildkit:master
 
-      - name: Build and Push
-        uses: docker/build-push-action@v1
+      - name: Login to GitHub Packages Docker Registry
+        uses: docker/login-action@v1
         with:
-          context: .
-          file: ./Dockerfile
+          registry: docker.pkg.github.com
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
           platforms: linux/amd64,linux/arm64
           push: true
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          repository: arvatoaws/helm-pipeline/release
+          pull: true
+          tags: docker.pkg.github.com/arvatoaws/helm-pipeline/release:latest
