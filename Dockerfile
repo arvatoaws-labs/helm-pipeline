@@ -17,7 +17,7 @@ ADD kubernetes.repo /etc/yum.repos.d/
 RUN sed -i "s/x86_64/`det-arch.sh x c`/" /etc/yum.repos.d/kubernetes.repo
 
 # base
-RUN dnf upgrade -y && dnf install -y awscli wget curl kubectl git hub openssh-clients jq awscli bc findutils && dnf clean all
+RUN dnf upgrade -y && dnf install -y awscli wget curl kubectl git hub openssh-clients jq awscli bc findutils && dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm && dnf clean all
 
 # helm
 RUN wget https://get.helm.sh/helm-v${HELM_2_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
@@ -37,7 +37,6 @@ helm plugin install https://github.com/helm/helm-2to3
 
 # github
 ADD gh-scripts/* /usr/local/bin/
-RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
 
 # eksctl & fluxctl & others
 ADD eksctl-scripts/* /usr/local/bin/
