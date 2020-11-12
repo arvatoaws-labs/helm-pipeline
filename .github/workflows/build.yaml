@@ -39,3 +39,5 @@ jobs:
           push: true
           pull: true
           tags: ghcr.io/arvatoaws-labs/helm-pipeline/release:latest
+          cache-from: type=registry,ref=ghcr.io/arvatoaws-labs/helm-pipeline/release:latest
+          cache-to: type=inline
