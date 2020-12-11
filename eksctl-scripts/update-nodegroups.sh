@@ -23,7 +23,7 @@ CLUSTER_NAME=$(cat $CLUSTER_FILE | yq r - metadata.name)
 
 eksctl get nodegroup --cluster $CLUSTER_NAME
 
-OLD_COMMIT_ID=$(cut -d'v' -f 2 <<< $(eksctl get nodegroup --cluster $CLUSTER_NAME | tail -n +2 | awk '{ print $2; }' | head -n 1))
+OLD_COMMIT_ID=$(cut -d'v' -f 2 <<< $(eksctl get nodegroup --cluster $CLUSTER_NAME | grep $CLUSTER_NAME | awk '{ print $2; }' | head -n 1))
 sed -i "s/-v[0-9a-f]\+$/-v$OLD_COMMIT_ID/g" $CLUSTER_FILE
 
 NUMBER_OF_NODEGROUPS=$(yq r $CLUSTER_FILE --length nodeGroups)
