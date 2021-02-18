@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$FLUXv2" == "true" ]; then
-  flux install --dry-run --arch $ARCH --version $FLUX_VERSION
+  flux install --dry-run --version $FLUX_VERSION
 else
   helm3 repo add fluxcd https://charts.fluxcd.io
   helm3 repo update
