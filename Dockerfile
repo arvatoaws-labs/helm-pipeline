@@ -10,6 +10,7 @@ ARG FLUX_VERSION=0.10.0
 ARG VELERO_VERSION=1.5.1
 ARG YQ_VERSION=3.4.1
 ARG BUILDX_VERSION=0.5.1
+ARG PACKER_VERSION=1.7.0
 
 RUN dnf install -y sed
 
@@ -58,3 +59,9 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
 
 # custom
 ADD custom-scripts/* /usr/local/bin/
+
+# Packer
+RUN wget https://releases.hashicorp.com/packer/$PACKER_VERSION/packer_$PACKER_VERSION_linux_`det-arch.sh a r`.zip && unzip packer_$PACKER_VERSION_linux_`det-arch.sh a r`.zip && mv packer /usr/bin && rm packer_$PACKER_VERSION_linux_`det-arch.sh a r`.zip
+
+# Session Manager
+RUN dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_`det-arch.sh z r`/session-manager-plugin.rpm

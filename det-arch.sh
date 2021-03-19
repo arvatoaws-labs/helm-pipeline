@@ -11,6 +11,9 @@ case $arch in
     a)
       echo 'amd64'
     ;;
+    z)
+      echo "64bit"
+    ;;
   esac
   ;;
 
