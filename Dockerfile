@@ -61,7 +61,8 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
 ADD custom-scripts/* /usr/local/bin/
 
 # Packer
-RUN wget https://releases.hashicorp.com/packer/$PACKER_VERSION/packer_$PACKER_VERSION_linux_`det-arch.sh a r`.zip && unzip packer_$PACKER_VERSION_linux_`det-arch.sh a r`.zip && mv packer /usr/bin && rm packer_$PACKER_VERSION_linux_`det-arch.sh a r`.zip
+RUN dnf install -y unzip
+RUN wget https://releases.hashicorp.com/packer/$PACKER_VERSION/packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip && unzip packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip && mv packer /usr/bin && rm packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip
 
 # Session Manager
 RUN dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_`det-arch.sh z r`/session-manager-plugin.rpm
