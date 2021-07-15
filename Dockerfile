@@ -52,9 +52,7 @@ rm -rf linux-`det-arch.sh a r` helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.t
 ADD helm-scripts/* /usr/local/bin/
 RUN rm -rf ~/.ssh/known_hosts && \
 mkdir ~/.ssh && \
-ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts && \
-helm init --client-only && \
-helm plugin install https://github.com/helm/helm-2to3
+ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
 ARG FLUX_VERSION=0.16.1
 RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
