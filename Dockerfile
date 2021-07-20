@@ -41,7 +41,7 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
 ARG PACKER_VERSION=1.7.2
 RUN wget https://releases.hashicorp.com/packer/$PACKER_VERSION/packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip && unzip packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip && mv packer /usr/bin && rm packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip
 
-ARG POPEYE_VERSION=0.9.6
+ARG POPEYE_VERSION=0.9.7
 RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_`det-arch.sh x r`.tar.gz && tar xf popeye_Linux_`det-arch.sh x r`.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_`det-arch.sh x r`.tar.gz
 
 ARG HELM_3_VERSION=3.6.3
