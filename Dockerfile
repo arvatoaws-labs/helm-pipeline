@@ -21,7 +21,7 @@ ADD eksctl-scripts/* /usr/local/bin/
 # custom
 ADD custom-scripts/* /usr/local/bin/
 
-ARG POPEYE_VERSION=0.8.10
+ARG POPEYE_VERSION=0.9.7
 RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_`det-arch.sh x r`.tar.gz && tar xf popeye_Linux_`det-arch.sh x r`.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_`det-arch.sh x r`.tar.gz
 
 ARG FLUXCTL_VERSION=1.23.0
