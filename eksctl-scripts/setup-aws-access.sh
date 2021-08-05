@@ -10,7 +10,7 @@ yq d -i .tmpcurrentaws-auth metadata.creationTimestamp
 yq d -i .tmpcurrentaws-auth metadata.resourceVersion
 yq d -i .tmpcurrentaws-auth metadata.selfLink
 yq d -i .tmpcurrentaws-auth metadata.uid
-NEW_CONTENT=$(cat .tmpcurrentaws-auth | yq r - data.mapRoles | yq r - -j | jq 'map({ (.rolearn): . }) | add' | jq ".\"arn:aws:iam::${ACCOUNT}:role/ToolsAcctCodePipelineKubernetesRole\" = {\"groups\":[\"system:masters\"],\"username\":\"codebuild\",\"rolearn\":\"arn:aws:iam::${ACCOUNT}:role/ToolsAcctCodePipelineKubernetesRole\"}" | jq ".\"arn:aws:iam::${ACCOUNT}:role/CsAdministratorRole\" = {\"groups\":[\"system:masters\"],\"username\":\"asyadmin\",\"rolearn\":\"arn:aws:iam::${ACCOUNT}:role/CsAdministratorRole\"}" | jq 'to_entries | map_values(.value)' | yq r - --prettyPrint)
+NEW_CONTENT=$(cat .tmpcurrentaws-auth | yq r - data.mapRoles | yq r - -j | jq 'map({ (.rolearn): . }) | add' | jq ".\"arn:aws:iam::${ACCOUNT}:role/ToolsAcctCodePipelineKubernetesRole\" = {\"groups\":[\"system:masters\"],\"username\":\"codebuild\",\"rolearn\":\"arn:aws:iam::${ACCOUNT}:role/ToolsAcctCodePipelineKubernetesRole\"}" | jq ".\"arn:aws:iam::${ACCOUNT}:role/CsAdministratorRole\" = {\"groups\":[\"system:masters\"],\"username\":\"asyadmin\",\"rolearn\":\"arn:aws:iam::${ACCOUNT}:role/CsAdministratorRole\"}" | jq ".\"arn:aws:iam::${ACCOUNT}:role/CsAuditorRole\" = {\"groups\":[\"eks-console-dashboard-read-access-group\"],\"username\":\"asysauditor\",\"rolearn\":\"arn:aws:iam::${ACCOUNT}:role/CsAuditorRole\"}" | jq 'to_entries | map_values(.value)' | yq r - --prettyPrint)
 yq w -i -- .tmpcurrentaws-auth data.mapRoles "$NEW_CONTENT"
 echo "New aws-auth map:"
 cat .tmpcurrentaws-auth
