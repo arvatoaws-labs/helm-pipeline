@@ -14,7 +14,6 @@ fi
 
 kubectl -n kube-system get cm kube-proxy-config -o yaml | sed 's/metricsBindAddress: 127.0.0.1:10249/metricsBindAddress: 0.0.0.0:10249/' | kubectl apply -f -
 
-#create_eks_console_dashboard_read_clusterrole.sh
 oidc-setup.sh
 setup-aws-access.sh
 
