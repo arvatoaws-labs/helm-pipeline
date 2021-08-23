@@ -21,7 +21,7 @@ ADD eksctl-scripts/* /usr/local/bin/
 # custom
 ADD custom-scripts/* /usr/local/bin/
 
-ARG FLUXCTL_VERSION=1.23.2
+ARG FLUXCTL_VERSION=1.24.0
 RUN wget https://github.com/fluxcd/flux/releases/download/$FLUXCTL_VERSION/fluxctl_linux_`det-arch.sh a r` && mv fluxctl_linux_`det-arch.sh a r` /usr/bin/fluxctl && chmod +x /usr/bin/fluxctl
 
 ARG YQ_VERSION=3.4.1
@@ -57,7 +57,7 @@ ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 ARG FLUX_VERSION=0.16.2
 RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
 
-ARG EKSCTL_VERSION=0.61.0
+ARG EKSCTL_VERSION=0.62.0
 RUN wget https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_Linux_`det-arch.sh a r`.tar.gz && tar xf eksctl_Linux_`det-arch.sh a r`.tar.gz && mv eksctl /usr/bin/ && rm -rf eksctl_Linux_`det-arch.sh a r`.tar.gz
 
 # Session Manager
