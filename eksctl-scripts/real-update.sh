@@ -1,7 +1,15 @@
 #!/bin/bash
 set -x
 
-if [ "$(update-or-create.sh)" == "true" ]; then
+if ! [ -f $CLUSTER_FILE ];
+then
+    echo "cannot read file $CLUSTER_FILE"
+    exit 1
+fi
+
+export IS_UPDATE=$(update-or-create.sh)
+
+if [ "$IS_UPDATE" == "true" ]; then
   backup.sh
   update-cluster.sh
   update-utils.sh
@@ -21,7 +29,13 @@ if [ "$UPDATE_FLUX" == "false" ]; then
   echo "Skipping Flux upgrade / initialization"
 else
   if [ "$FLUXv2" == "true" ]; then
-    initialise-fluxv2.sh
+    if [ "$IS_UPDATE" == "true" ]; then
+      initialise-fluxv2.sh
+    else
+      if [ "$(yq r $CLUSTER_FILE 'gitops' | grep 'flux' || echo "no_gitops")" == "no_gitops" ]; then
+        initialise-fluxv2.sh
+      fi
+    fi
   else
     initialise-flux.sh
   fi
