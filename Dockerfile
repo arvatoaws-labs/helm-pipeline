@@ -1,5 +1,7 @@
 FROM fedora:34
 
+VOLUME /var/lib/docker
+
 RUN dnf install -y sed
 
 ADD det-arch.sh /usr/local/bin
