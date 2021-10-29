@@ -9,7 +9,7 @@ RUN sed -i "s/x86_64/`det-arch.sh x c`/" /etc/yum.repos.d/kubernetes.repo
 # base
 RUN dnf upgrade -y && dnf install -y awscli wget curl kubectl git hub openssh-clients jq awscli bc findutils unzip
 
-ARG GH_CLI_VERSION=1.12.0
+ARG GH_CLI_VERSION=1.14.0
 RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
 
 # github
@@ -21,16 +21,13 @@ ADD eksctl-scripts/* /usr/local/bin/
 # custom
 ADD custom-scripts/* /usr/local/bin/
 
-ARG POPEYE_VERSION=0.9.7
-RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_`det-arch.sh x r`.tar.gz && tar xf popeye_Linux_`det-arch.sh x r`.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_`det-arch.sh x r`.tar.gz
-
-ARG FLUXCTL_VERSION=1.23.0
+ARG FLUXCTL_VERSION=1.24.0
 RUN wget https://github.com/fluxcd/flux/releases/download/$FLUXCTL_VERSION/fluxctl_linux_`det-arch.sh a r` && mv fluxctl_linux_`det-arch.sh a r` /usr/bin/fluxctl && chmod +x /usr/bin/fluxctl
 
 ARG YQ_VERSION=3.4.1
 RUN wget https://github.com/mikefarah/yq/releases/download/$YQ_VERSION/yq_linux_`det-arch.sh a r` && chmod +x yq_linux_`det-arch.sh a r` && mv yq_linux_`det-arch.sh a r` /usr/bin/yq
 
-ARG VELERO_VERSION=1.6.1
+ARG VELERO_VERSION=1.6.3
 RUN wget https://github.com/vmware-tanzu/velero/releases/download/v$VELERO_VERSION/velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz && tar xf velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz && mv velero-v$VELERO_VERSION-linux-`det-arch.sh a r`/velero /usr/bin/velero && rm -rf velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz velero-v$VELERO_VERSION-linux-`det-arch.sh a r`
 
 ARG BUILDX_VERSION=0.5.1
@@ -44,6 +41,9 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
 ARG PACKER_VERSION=1.7.2
 RUN wget https://releases.hashicorp.com/packer/$PACKER_VERSION/packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip && unzip packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip && mv packer /usr/bin && rm packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip
 
+ARG POPEYE_VERSION=0.9.7
+RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_`det-arch.sh x r`.tar.gz && tar xf popeye_Linux_`det-arch.sh x r`.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_`det-arch.sh x r`.tar.gz
+
 ARG HELM_3_VERSION=3.6.3
 RUN wget https://get.helm.sh/helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
 tar xf helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
@@ -54,10 +54,11 @@ RUN rm -rf ~/.ssh/known_hosts && \
 mkdir ~/.ssh && \
 ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
-ARG FLUX_VERSION=0.16.1
+ARG FLUX_VERSION=0.17.0
 RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
 
-ARG EKSCTL_VERSION=0.59.0
+ARG EKSCTL_VERSION=0.62.0
+
 RUN wget https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_Linux_`det-arch.sh a r`.tar.gz && tar xf eksctl_Linux_`det-arch.sh a r`.tar.gz && mv eksctl /usr/bin/ && rm -rf eksctl_Linux_`det-arch.sh a r`.tar.gz
 
 # Session Manager
