@@ -20,26 +20,23 @@ CLUSTER_NAME=$(cat $CLUSTER_FILE | yq r - metadata.name)
 if [ "$(yq r $CLUSTER_FILE 'addons' | grep 'vpc-cni' || echo "nope")" == "nope" ]; then
   eksctl utils update-kube-proxy -f $CLUSTER_FILE $OPTIONS
   # TODO Check Completion?
-elif [ "$(eksctl get addons --name vpc-cni --cluster $CLUSTER_NAME | grep ACTIVE | echo $?)" == "0" ]; then
-  eksctl update addon --name vpc-cni --cluster $CLUSTER_NAME
 else
-  eksctl create addon --name vpc-cni --cluster $CLUSTER_NAME
+  export DO_MANAGED_UPDATE="true"
 fi
-
 if [ "$(yq r $CLUSTER_FILE 'addons' | grep 'coredns' || echo "nope")" == "nope" ]; then
   eksctl utils update-coredns -f $CLUSTER_FILE $OPTIONS
   # TODO Check Completion?
-elif [ "$(eksctl get addons --name coredns --cluster $CLUSTER_NAME | grep ACTIVE | echo $?)" == "0" ]; then
-  eksctl update addon --name coredns --cluster $CLUSTER_NAME
 else
-  eksctl create addon --name coredns --cluster $CLUSTER_NAME
+  export DO_MANAGED_UPDATE="true"
 fi
-
 if [ "$(yq r $CLUSTER_FILE 'addons' | grep 'kube-proxy' || echo "nope")" == "nope" ]; then
   eksctl utils update-aws-node -f $CLUSTER_FILE $OPTIONS
   # TODO Check Completion?
-elif [ "$(eksctl get addons --name kube-proxy --cluster $CLUSTER_NAME | grep ACTIVE | echo $?)" == "0" ]; then
-  eksctl update addon --name kube-proxy --cluster $CLUSTER_NAME
 else
-  eksctl create addon --name kube-proxy --cluster $CLUSTER_NAME
+  export DO_MANAGED_UPDATE="true"
 fi
+
+
+if [ "$DO_MANAGED_UPDATE" == "true" ]; then
+  eksctl update addon -f $CLUSTER_FILE -v 4 || eksctl create addon -f $CLUSTER_FILE -v 4
+fi 
