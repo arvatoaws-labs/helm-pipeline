@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$FLUXv2" == "true" ]; then
-  flux install --dry-run --version $FLUX_VERSION
+  flux install --version $FLUX_VERSION --export | kubectl apply --dry-run=client -f-
 else
   helm3 repo add fluxcd https://charts.fluxcd.io
   helm3 repo update
