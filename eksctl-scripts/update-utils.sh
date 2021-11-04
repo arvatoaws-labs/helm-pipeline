@@ -36,7 +36,6 @@ else
   export DO_MANAGED_UPDATE="true"
 fi
 
-
-if [ "$DO_MANAGED_UPDATE" == "true" ]; then
+if [ -v OPTIONS ] && [ "$DO_MANAGED_UPDATE" == "true" ]; then
   eksctl update addon -f $CLUSTER_FILE || eksctl create addon -f $CLUSTER_FILE
-fi 
+fi
