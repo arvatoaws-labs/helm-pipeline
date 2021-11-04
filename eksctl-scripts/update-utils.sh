@@ -38,5 +38,5 @@ fi
 
 
 if [ "$DO_MANAGED_UPDATE" == "true" ]; then
-  eksctl update addon -f $CLUSTER_FILE -v 4 || eksctl create addon -f $CLUSTER_FILE -v 4
+  eksctl update addon -f $CLUSTER_FILE || eksctl create addon -f $CLUSTER_FILE
 fi 
