@@ -37,5 +37,5 @@ else
 fi
 
 if [ -v OPTIONS ] && [ "$DO_MANAGED_UPDATE" == "true" ]; then
-  eksctl update addon -f $CLUSTER_FILE || eksctl create addon -f $CLUSTER_FILE
+  eksctl update addon -f $CLUSTER_FILE --force || eksctl create addon -f $CLUSTER_FILE --force
 fi
