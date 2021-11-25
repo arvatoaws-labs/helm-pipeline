@@ -19,9 +19,10 @@ else
   create-cluster.sh
   create-fargate-profile.sh
 fi
-
-kubectl -n kube-system get cm kube-proxy-config -o yaml | sed 's/metricsBindAddress: 127.0.0.1:10249/metricsBindAddress: 0.0.0.0:10249/' | kubectl apply -f -
-
+# kube-proxy is managed addon and the following config would be overwritten by EKS
+#
+#kubectl -n kube-system get cm kube-proxy-config -o yaml | sed 's/metricsBindAddress: 127.0.0.1:10249/metricsBindAddress: 0.0.0.0:10249/' | kubectl apply -f -
+#
 oidc-setup.sh
 setup-aws-access.sh
 
