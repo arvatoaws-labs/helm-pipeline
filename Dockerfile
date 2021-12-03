@@ -40,7 +40,7 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
   docker buildx version
 
 # Packer
-ARG PACKER_VERSION=1.7.6
+ARG PACKER_VERSION=1.7.8
 RUN wget https://releases.hashicorp.com/packer/$PACKER_VERSION/packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip && unzip packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip && mv packer /usr/bin && rm packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip
 
 ARG POPEYE_VERSION=0.9.7
