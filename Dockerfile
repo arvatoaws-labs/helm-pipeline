@@ -26,7 +26,7 @@ ADD custom-scripts/* /usr/local/bin/
 ARG FLUXCTL_VERSION=1.24.3
 RUN wget https://github.com/fluxcd/flux/releases/download/$FLUXCTL_VERSION/fluxctl_linux_`det-arch.sh a r` && mv fluxctl_linux_`det-arch.sh a r` /usr/bin/fluxctl && chmod +x /usr/bin/fluxctl
 
-ARG YQ_VERSION=4.20.4
+ARG YQ_VERSION=4.20.2
 RUN wget https://github.com/mikefarah/yq/releases/download/v$YQ_VERSION/yq_linux_`det-arch.sh a r` && chmod +x yq_linux_`det-arch.sh a r` && mv yq_linux_`det-arch.sh a r` /usr/bin/yq
 
 ARG VELERO_VERSION=1.8.0
