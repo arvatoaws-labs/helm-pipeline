@@ -17,19 +17,19 @@ fi
 
 CLUSTER_NAME=$(cat $CLUSTER_FILE | yq r - metadata.name)
 
-if [ "$(yq r $CLUSTER_FILE 'addons' | grep 'vpc-cni' || echo "nope")" == "nope" ]; then
+if [ "$(yq eval '.addons' $CLUSTER_FILE | grep 'vpc-cni' || echo "nope")" == "nope" ]; then
   eksctl utils update-kube-proxy -f $CLUSTER_FILE $OPTIONS
   # TODO Check Completion?
 else
   export DO_MANAGED_UPDATE="true"
 fi
-if [ "$(yq r $CLUSTER_FILE 'addons' | grep 'coredns' || echo "nope")" == "nope" ]; then
+if [ "$(yq eval '.addons' $CLUSTER_FILE | grep 'coredns' || echo "nope")" == "nope" ]; then
   eksctl utils update-coredns -f $CLUSTER_FILE $OPTIONS
   # TODO Check Completion?
 else
   export DO_MANAGED_UPDATE="true"
 fi
-if [ "$(yq r $CLUSTER_FILE 'addons' | grep 'kube-proxy' || echo "nope")" == "nope" ]; then
+if [ "$(yq eval '.addons' $CLUSTER_FILE | grep 'kube-proxy' || echo "nope")" == "nope" ]; then
   eksctl utils update-aws-node -f $CLUSTER_FILE $OPTIONS
   # TODO Check Completion?
 else
