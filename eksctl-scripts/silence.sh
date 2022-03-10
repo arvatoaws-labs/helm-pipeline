@@ -12,7 +12,7 @@ then
     exit 1
 fi
 
-CLUSTER_NAME=$(cat $CLUSTER_FILE | yq r - metadata.name)
+CLUSTER_NAME=$(cat $CLUSTER_FILE | yq eval '.metadata.name' -)
 START_DATE=$(date --utc +%FT%T.%3NZ)
 END_DATE=$(date --utc +%FT%T.%3NZ -d "+2 hours")
 
