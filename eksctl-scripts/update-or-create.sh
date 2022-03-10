@@ -15,6 +15,6 @@ then
     exit 1
 fi
 
-CLUSTER_NAME=$(cat $CLUSTER_FILE | yq r - metadata.name)
+CLUSTER_NAME=$(cat $CLUSTER_FILE | yq eval '.metadata.name' -)
 
 aws eks list-clusters | jq ".clusters as \$f | \"$CLUSTER_NAME\" | IN(\$f[])"
