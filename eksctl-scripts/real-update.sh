@@ -33,7 +33,7 @@ else
     if [ "$IS_UPDATE" == "true" ]; then
       initialise-fluxv2.sh
     else
-      if [ "$(yq r $CLUSTER_FILE 'gitops' | grep 'flux' || echo "no_gitops")" == "no_gitops" ]; then
+      if [ "$(yq '.gitops' $CLUSTER_FILE | grep 'flux' || echo "no_gitops")" == "no_gitops" ]; then
         initialise-fluxv2.sh
       fi
     fi
