@@ -10,8 +10,8 @@ yq -i 'del(.metadata.creationTimestamp)' .tmpcurrentaws-auth
 yq -i 'del(.metadata.resourceVersion)' .tmpcurrentaws-auth
 yq -i 'del(.metadata.selfLink)' .tmpcurrentaws-auth
 yq -i 'del(.metadata.uid)' .tmpcurrentaws-auth
-NEW_CONTENT=$(cat .tmpcurrentaws-auth | yq r - data.mapRoles | yq r - -j | jq 'map({ (.rolearn): . }) | add' | jq ".\"arn:aws:iam::${ACCOUNT}:role/ToolsAcctCodePipelineKubernetesRole\" = {\"groups\":[\"system:masters\"],\"username\":\"codebuild\",\"rolearn\":\"arn:aws:iam::${ACCOUNT}:role/ToolsAcctCodePipelineKubernetesRole\"}" | jq ".\"arn:aws:iam::${ACCOUNT}:role/CsAdministratorRole\" = {\"groups\":[\"system:masters\"],\"username\":\"asyadmin\",\"rolearn\":\"arn:aws:iam::${ACCOUNT}:role/CsAdministratorRole\"}" | jq ".\"arn:aws:iam::${ACCOUNT}:role/CsAuditorRole\" = {\"groups\":[\"eks-console-dashboard-read-access-group\"],\"username\":\"asysauditor\",\"rolearn\":\"arn:aws:iam::${ACCOUNT}:role/CsAuditorRole\"}" | jq 'to_entries | map_values(.value)' | yq r - --prettyPrint)
-yq w -i -- .tmpcurrentaws-auth data.mapRoles "$NEW_CONTENT"
+NEW_CONTENT=$(cat .tmpcurrentaws-auth | yq '.data.mapRoles' - | yq -j - | jq 'map({ (.rolearn): . }) | add' | jq ".\"arn:aws:iam::${ACCOUNT}:role/ToolsAcctCodePipelineKubernetesRole\" = {\"groups\":[\"system:masters\"],\"username\":\"codebuild\",\"rolearn\":\"arn:aws:iam::${ACCOUNT}:role/ToolsAcctCodePipelineKubernetesRole\"}" | jq ".\"arn:aws:iam::${ACCOUNT}:role/CsAdministratorRole\" = {\"groups\":[\"system:masters\"],\"username\":\"asyadmin\",\"rolearn\":\"arn:aws:iam::${ACCOUNT}:role/CsAdministratorRole\"}" | jq ".\"arn:aws:iam::${ACCOUNT}:role/CsAuditorRole\" = {\"groups\":[\"eks-console-dashboard-read-access-group\"],\"username\":\"asysauditor\",\"rolearn\":\"arn:aws:iam::${ACCOUNT}:role/CsAuditorRole\"}" | jq 'to_entries | map_values(.value)' | yq -P -)
+yq -i '.data.mapRoles = "$NEW_CONTENT"' .tmpcurrentaws-auth
 echo "New aws-auth map:"
 cat .tmpcurrentaws-auth
 kubectl apply -f .tmpcurrentaws-auth
