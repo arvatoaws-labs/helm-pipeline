@@ -18,7 +18,7 @@ fi
 CLUSTER_NAME=$(cat $CLUSTER_FILE | yq r - metadata.name)
 ACTIVATED_ADD_ONS=$(eksctl get addon --cluster $CLUSTER_NAME --output json | jq '.[].Name' )
 
-echo "This are the activated managed add-ons in cluster: " $ACTIVATED_ADD_ONS
+echo "The activated managed add-ons in this cluster are: " $ACTIVATED_ADD_ONS
 
 if [ "$(yq eval '.addons' $CLUSTER_FILE | grep 'vpc-cni' || echo "nope")" == "nope" ]; then
   eksctl utils update-kube-proxy -f $CLUSTER_FILE $OPTIONS
@@ -49,3 +49,5 @@ if [ -v OPTIONS ] && [ "$DO_MANAGED_UPDATE" == "true" ]; then
     fi
   done
 fi
+
+#TODO in future: delete unused add-ons?
