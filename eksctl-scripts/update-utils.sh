@@ -42,10 +42,10 @@ fi
 if [ -v OPTIONS ] && [ "$DO_MANAGED_UPDATE" == "true" ]; then
   for a in $(yq eval '.addons[].name' $CLUSTER_FILE) # check add-ons in cluster file
   do
-    if [ $(echo $ACTIVATED_ADD_ONS | grep -w $a) ]; then # if add-on from cluster file is activated in cluster already, then it will be updated
-      eksctl update addon --name $a --cluster $CLUSTER_NAME
+    if [ ! $(echo $ACTIVATED_ADD_ONS | grep -w $a) ]; then # if add-on from cluster file is not installed in cluster, then it will be installed in default configuration
+      echo "Addon" $a "not installed in cluster yet. Installing it...!" && eksctl create addon --name $a --cluster $CLUSTER_NAME --wait
     else
-      echo "Addon" $a "not found. It will be created!" && eksctl create addon --name $a --cluster $CLUSTER_NAME # else it would be created
+      eksctl update addon -f $CLUSTER_FILE # update all addons with properly config from config-file (considering tags, policies,...)
     fi
   done
 fi
