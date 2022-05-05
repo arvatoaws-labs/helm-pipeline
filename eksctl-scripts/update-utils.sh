@@ -15,7 +15,7 @@ then
     exit 1
 fi
 
-CLUSTER_NAME=$(cat $CLUSTER_FILE | yq eval 'metadata.name' -)
+CLUSTER_NAME=$(cat $CLUSTER_FILE | yq eval '.metadata.name' -)
 
 if [ "$(yq eval '.addons' $CLUSTER_FILE | grep 'vpc-cni' || echo "nope")" == "nope" ]; then
   eksctl utils update-kube-proxy -f $CLUSTER_FILE $OPTIONS
