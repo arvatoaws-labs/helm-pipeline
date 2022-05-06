@@ -18,7 +18,7 @@ fi
 echo "eksctl version:"
 eksctl version --output json
 
-FARGATE_JSON=$(yq eval $CLUSTER_FILE -j)
+FARGATE_JSON=$(yq eval $CLUSTER_FILE -o=json)
 FARGATE_PROFILES=$(echo $FARGATE_JSON | jq ".fargateProfiles" - | jq length)
 
 if [[ "$FARGATE_PROFILES" -gt 0 ]];
