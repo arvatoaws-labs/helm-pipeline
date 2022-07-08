@@ -26,7 +26,7 @@ ADD custom-scripts/* /usr/local/bin/
 ARG FLUXCTL_VERSION=1.24.3
 RUN wget https://github.com/fluxcd/flux/releases/download/$FLUXCTL_VERSION/fluxctl_linux_`det-arch.sh a r` && mv fluxctl_linux_`det-arch.sh a r` /usr/bin/fluxctl && chmod +x /usr/bin/fluxctl
 
-ARG YQ_VERSION=4.25.1
+ARG YQ_VERSION=4.25.3
 RUN wget https://github.com/mikefarah/yq/releases/download/v$YQ_VERSION/yq_linux_`det-arch.sh a r` && chmod +x yq_linux_`det-arch.sh a r` && mv yq_linux_`det-arch.sh a r` /usr/bin/yq
 
 ARG VELERO_VERSION=1.9.0
@@ -40,10 +40,10 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
   docker buildx version
 
 # Packer
-ARG PACKER_VERSION=1.8.0
+ARG PACKER_VERSION=1.8.2
 RUN wget https://releases.hashicorp.com/packer/$PACKER_VERSION/packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip && unzip packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip && mv packer /usr/bin && rm packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip
 
-ARG POPEYE_VERSION=0.10.0
+ARG POPEYE_VERSION=0.10.1
 RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_`det-arch.sh x r`.tar.gz && tar xf popeye_Linux_`det-arch.sh x r`.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_`det-arch.sh x r`.tar.gz
 
 ARG HELM_3_VERSION=3.9.0
@@ -56,10 +56,10 @@ RUN rm -rf ~/.ssh/known_hosts && \
 mkdir ~/.ssh && \
 ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
-ARG FLUX_VERSION=0.31.1
+ARG FLUX_VERSION=0.31.3
 RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
 
-ARG EKSCTL_VERSION=0.102.0
+ARG EKSCTL_VERSION=0.105.0
 RUN wget https://github.com/weaveworks/eksctl/releases/download/v${EKSCTL_VERSION}/eksctl_Linux_`det-arch.sh a r`.tar.gz && tar xf eksctl_Linux_`det-arch.sh a r`.tar.gz && mv eksctl /usr/bin/ && rm -rf eksctl_Linux_`det-arch.sh a r`.tar.gz
 
 # Session Manager
