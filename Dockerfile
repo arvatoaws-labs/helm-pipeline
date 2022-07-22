@@ -46,7 +46,7 @@ RUN wget https://releases.hashicorp.com/packer/$PACKER_VERSION/packer_${PACKER_V
 ARG POPEYE_VERSION=0.10.1
 RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_`det-arch.sh x r`.tar.gz && tar xf popeye_Linux_`det-arch.sh x r`.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_`det-arch.sh x r`.tar.gz
 
-ARG HELM_3_VERSION=3.9.0
+ARG HELM_3_VERSION=3.9.2
 RUN wget https://get.helm.sh/helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
 tar xf helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
 mv linux-`det-arch.sh a r`/helm /usr/bin/helm3 && \
