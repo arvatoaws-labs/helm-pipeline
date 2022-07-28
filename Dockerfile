@@ -40,8 +40,9 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
   docker buildx version
 
 # Packer
-ARG PACKER_VERSION=1.8.2
-RUN wget https://releases.hashicorp.com/packer/$PACKER_VERSION/packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip && unzip packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip && mv packer /usr/bin && rm packer_${PACKER_VERSION}_linux_`det-arch.sh a r`.zip
+RUN dnf install -y dnf-plugins-core
+RUN dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+RUN dnf -y install packer
 
 ARG POPEYE_VERSION=0.10.1
 RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_`det-arch.sh x r`.tar.gz && tar xf popeye_Linux_`det-arch.sh x r`.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_`det-arch.sh x r`.tar.gz
