@@ -39,11 +39,6 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
   chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx && \
   docker buildx version
 
-# Packer
-RUN dnf install -y dnf-plugins-core
-RUN dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
-RUN dnf -y install packer
-
 ARG POPEYE_VERSION=0.10.1
 RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_`det-arch.sh x r`.tar.gz && tar xf popeye_Linux_`det-arch.sh x r`.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_`det-arch.sh x r`.tar.gz
 
@@ -67,3 +62,8 @@ RUN wget https://github.com/weaveworks/eksctl/releases/download/v${EKSCTL_VERSIO
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-`det-arch.sh x c`.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install --bin-dir /usr/bin && rm -rf awscliv2.zip aws
 
 RUN dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_`det-arch.sh z r`/session-manager-plugin.rpm
+
+# Packer
+RUN dnf install -y dnf-plugins-core
+RUN dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+RUN dnf -y install packer
