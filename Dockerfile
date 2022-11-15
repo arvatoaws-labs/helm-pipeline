@@ -1,4 +1,4 @@
-FROM ghcr.io/arvatoaws-labs/fedora:36
+FROM ghcr.io/arvatoaws-labs/fedora:37
 
 VOLUME /var/lib/docker
 
