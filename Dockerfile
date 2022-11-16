@@ -11,7 +11,7 @@ RUN sed -i "s/x86_64/`det-arch.sh x c`/" /etc/yum.repos.d/kubernetes.repo
 # base
 RUN dnf upgrade -y && dnf install -y wget curl kubectl git hub openssh-clients jq bc findutils unzip
 
-ARG GH_CLI_VERSION=2.18.0
+ARG GH_CLI_VERSION=2.20.2
 RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
 
 # github
@@ -26,7 +26,7 @@ ADD custom-scripts/* /usr/local/bin/
 ARG FLUXCTL_VERSION=1.24.3
 RUN wget https://github.com/fluxcd/flux/releases/download/$FLUXCTL_VERSION/fluxctl_linux_`det-arch.sh a r` && mv fluxctl_linux_`det-arch.sh a r` /usr/bin/fluxctl && chmod +x /usr/bin/fluxctl
 
-ARG YQ_VERSION=4.28.2
+ARG YQ_VERSION=4.30.4
 RUN wget https://github.com/mikefarah/yq/releases/download/v$YQ_VERSION/yq_linux_`det-arch.sh a r` && chmod +x yq_linux_`det-arch.sh a r` && mv yq_linux_`det-arch.sh a r` /usr/bin/yq
 
 ARG VELERO_VERSION=1.9.2
