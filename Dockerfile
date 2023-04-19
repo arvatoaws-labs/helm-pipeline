@@ -1,4 +1,4 @@
-FROM ghcr.io/arvatoaws-labs/fedora:37
+FROM ghcr.io/arvatoaws-labs/fedora:38
 
 VOLUME /var/lib/docker
 
@@ -61,6 +61,6 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-`det-arch.sh x c`.zip" -
 RUN dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_`det-arch.sh z r`/session-manager-plugin.rpm
 
 # Packer
-RUN dnf install -y dnf-plugins-core
-RUN dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
-RUN dnf -y install packer
+# RUN dnf install -y dnf-plugins-core
+# RUN dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+# RUN dnf -y install packer
