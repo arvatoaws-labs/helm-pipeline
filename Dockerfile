@@ -52,7 +52,7 @@ ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 ARG FLUX_VERSION=2.0.0-rc.1
 RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
 
-ARG EKSCTL_VERSION=0.138.0
+ARG EKSCTL_VERSION=0.139.0
 RUN wget https://github.com/weaveworks/eksctl/releases/download/v${EKSCTL_VERSION}/eksctl_Linux_`det-arch.sh a r`.tar.gz && tar xf eksctl_Linux_`det-arch.sh a r`.tar.gz && mv eksctl /usr/bin/ && rm -rf eksctl_Linux_`det-arch.sh a r`.tar.gz
 
 # Session Manager
