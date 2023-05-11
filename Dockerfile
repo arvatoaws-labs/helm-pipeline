@@ -11,7 +11,7 @@ RUN sed -i "s/x86_64/`det-arch.sh x c`/" /etc/yum.repos.d/kubernetes.repo
 # base
 RUN dnf upgrade -y && dnf install -y wget curl kubectl git hub openssh-clients jq bc findutils unzip
 
-ARG GH_CLI_VERSION=2.28.0
+ARG GH_CLI_VERSION=2.29.0
 RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
 
 # github
@@ -39,7 +39,7 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
 ARG POPEYE_VERSION=0.11.1
 RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_`det-arch.sh x r`.tar.gz && tar xf popeye_Linux_`det-arch.sh x r`.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_`det-arch.sh x r`.tar.gz
 
-ARG HELM_3_VERSION=3.11.3
+ARG HELM_3_VERSION=3.12.0
 RUN wget https://get.helm.sh/helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
 tar xf helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
 mv linux-`det-arch.sh a r`/helm /usr/bin/helm3 && \
