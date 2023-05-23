@@ -23,13 +23,13 @@ ADD eksctl-scripts/* /usr/local/bin/
 # custom
 ADD custom-scripts/* /usr/local/bin/
 
-ARG YQ_VERSION=4.33.3
+ARG YQ_VERSION=4.34.1
 RUN wget https://github.com/mikefarah/yq/releases/download/v$YQ_VERSION/yq_linux_`det-arch.sh a r` && chmod +x yq_linux_`det-arch.sh a r` && mv yq_linux_`det-arch.sh a r` /usr/bin/yq
 
-ARG VELERO_VERSION=1.11.0
-RUN wget https://github.com/vmware-tanzu/velero/releases/download/v$VELERO_VERSION/velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz && tar xf velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz && mv velero-v$VELERO_VERSION-linux-`det-arch.sh a r`/velero /usr/bin/velero && rm -rf velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz velero-v$VELERO_VERSION-linux-`det-arch.sh a r`
+# ARG VELERO_VERSION=1.11.0
+# RUN wget https://github.com/vmware-tanzu/velero/releases/download/v$VELERO_VERSION/velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz && tar xf velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz && mv velero-v$VELERO_VERSION-linux-`det-arch.sh a r`/velero /usr/bin/velero && rm -rf velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz velero-v$VELERO_VERSION-linux-`det-arch.sh a r`
 
-ARG BUILDX_VERSION=0.10.2
+ARG BUILDX_VERSION=0.10.5
 COPY --from=docker /usr/local/bin/docker /usr/bin/
 RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
   curl -fsSL https://github.com/docker/buildx/releases/download/v$BUILDX_VERSION/buildx-v$BUILDX_VERSION.linux-`det-arch.sh a r` > /usr/local/lib/docker/cli-plugins/docker-buildx && \
