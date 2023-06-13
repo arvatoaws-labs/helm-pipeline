@@ -44,6 +44,8 @@ RUN wget https://get.helm.sh/helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar
 tar xf helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
 mv linux-`det-arch.sh a r`/helm /usr/bin/helm3 && \
 rm -rf linux-`det-arch.sh a r` helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz
+RUN helm3 plugin install https://github.com/helm/helm-mapkubeapis
+RUN helm3 plugin install https://github.com/databus23/helm-diff
 ADD helm-scripts/* /usr/local/bin/
 RUN rm -rf ~/.ssh/known_hosts && \
 mkdir ~/.ssh && \
