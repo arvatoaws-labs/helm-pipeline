@@ -11,7 +11,7 @@ RUN sed -i "s/x86_64/`det-arch.sh x c`/" /etc/yum.repos.d/kubernetes.repo
 # base
 RUN dnf upgrade -y && dnf install -y wget curl kubectl git hub openssh-clients jq bc findutils unzip
 
-ARG GH_CLI_VERSION=2.33.0
+ARG GH_CLI_VERSION=2.35.0
 RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
 
 # github
@@ -51,7 +51,7 @@ RUN rm -rf ~/.ssh/known_hosts && \
 mkdir ~/.ssh && \
 ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
-ARG FLUX_VERSION=2.1.0
+ARG FLUX_VERSION=2.1.1
 RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
 
 ARG EKSCTL_VERSION=0.157.0
