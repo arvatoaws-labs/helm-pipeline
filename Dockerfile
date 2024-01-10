@@ -17,9 +17,6 @@ RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSIO
 # github
 ADD gh-scripts/* /usr/local/bin/
 
-# eksctl & fluxctl & others
-ADD eksctl-scripts/* /usr/local/bin/
-
 # custom
 ADD custom-scripts/* /usr/local/bin/
 
