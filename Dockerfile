@@ -11,14 +11,11 @@ RUN sed -i "s/x86_64/`det-arch.sh x c`/" /etc/yum.repos.d/kubernetes.repo
 # base
 RUN dnf upgrade -y && dnf install -y wget curl kubectl git hub openssh-clients jq bc findutils unzip
 
-ARG GH_CLI_VERSION=2.39.1
+ARG GH_CLI_VERSION=2.41.0
 RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
 
 # github
 ADD gh-scripts/* /usr/local/bin/
-
-# eksctl & fluxctl & others
-ADD eksctl-scripts/* /usr/local/bin/
 
 # custom
 ADD custom-scripts/* /usr/local/bin/
