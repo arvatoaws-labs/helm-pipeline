@@ -20,7 +20,7 @@ ADD gh-scripts/* /usr/local/bin/
 # custom
 ADD custom-scripts/* /usr/local/bin/
 
-ARG YQ_VERSION=4.41.1
+ARG YQ_VERSION=4.42.1
 RUN wget https://github.com/mikefarah/yq/releases/download/v$YQ_VERSION/yq_linux_`det-arch.sh a r` && chmod +x yq_linux_`det-arch.sh a r` && mv yq_linux_`det-arch.sh a r` /usr/bin/yq
 
 # ARG VELERO_VERSION=1.11.0
