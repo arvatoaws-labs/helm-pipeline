@@ -33,7 +33,7 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
   chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx && \
   docker buildx version
 
-ARG POPEYE_VERSION=0.20.0
+ARG POPEYE_VERSION=0.20.4
 RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_`det-arch.sh a r`.tar.gz && tar xf popeye_Linux_`det-arch.sh a r`.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_`det-arch.sh a r`.tar.gz
 
 ARG HELM_3_VERSION=3.14.2
