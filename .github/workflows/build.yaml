@@ -10,8 +10,8 @@ on:
 
 jobs:
   build:
-    # runs-on: arvato
-    runs-on: ubuntu-latest
+    runs-on: arvato
+    # runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
