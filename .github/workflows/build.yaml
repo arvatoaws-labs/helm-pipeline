@@ -13,7 +13,7 @@ jobs:
     runs-on: arvato
     steps:
     - name: Checkout
-      uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
     # - name: What
     #   run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
     - name: Set up QEMU
@@ -36,7 +36,7 @@ jobs:
         #username: jenkins-arvato
         #password: ${{ secrets.CR_PAT }}
     - name: Build and Push Latest
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       if: github.ref == 'refs/heads/master'
       with:
         platforms: linux/amd64,linux/arm64
@@ -46,7 +46,7 @@ jobs:
         cache-from: type=registry,ref=ghcr.io/arvatoaws-labs/helm-pipeline/release:latest
         cache-to: type=inline
     - name: Build and Push Dev
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       if: github.ref == 'refs/heads/dev'
       with:
         platforms: linux/amd64,linux/arm64
