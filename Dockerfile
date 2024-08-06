@@ -7,7 +7,7 @@ ADD det-arch.sh /usr/local/bin
 # base
 RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes-client git hub openssh-clients jq bc findutils unzip
 
-ARG GH_CLI_VERSION=2.53.0
+ARG GH_CLI_VERSION=2.54.0
 RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
 
 # github
@@ -16,7 +16,7 @@ ADD gh-scripts/* /usr/local/bin/
 # custom
 ADD custom-scripts/* /usr/local/bin/
 
-ARG YQ_VERSION=4.44.2
+ARG YQ_VERSION=4.44.3
 RUN wget https://github.com/mikefarah/yq/releases/download/v$YQ_VERSION/yq_linux_`det-arch.sh a r` && chmod +x yq_linux_`det-arch.sh a r` && mv yq_linux_`det-arch.sh a r` /usr/bin/yq
 
 # ARG VELERO_VERSION=1.14.0
@@ -47,7 +47,7 @@ ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 ARG FLUX_VERSION=2.3.0
 RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
 
-ARG EKSCTL_VERSION=0.187.0
+ARG EKSCTL_VERSION=0.188.0
 RUN wget https://github.com/eksctl-io/eksctl/releases/download/v${EKSCTL_VERSION}/eksctl_Linux_`det-arch.sh a r`.tar.gz && tar xf eksctl_Linux_`det-arch.sh a r`.tar.gz && mv eksctl /usr/bin/ && rm -rf eksctl_Linux_`det-arch.sh a r`.tar.gz
 
 # Session Manager
