@@ -7,7 +7,7 @@ ADD det-arch.sh /usr/local/bin
 # base
 RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes-client git hub openssh-clients jq bc findutils unzip
 
-ARG GH_CLI_VERSION=2.56.0
+ARG GH_CLI_VERSION=2.57.0
 RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
 
 # github
@@ -22,7 +22,7 @@ RUN wget https://github.com/mikefarah/yq/releases/download/v$YQ_VERSION/yq_linux
 # ARG VELERO_VERSION=1.14.0
 # RUN wget https://github.com/vmware-tanzu/velero/releases/download/v$VELERO_VERSION/velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz && tar xf velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz && mv velero-v$VELERO_VERSION-linux-`det-arch.sh a r`/velero /usr/bin/velero && rm -rf velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz velero-v$VELERO_VERSION-linux-`det-arch.sh a r`
 
-ARG BUILDX_VERSION=0.17.0
+ARG BUILDX_VERSION=0.17.1
 COPY --from=docker /usr/local/bin/docker /usr/bin/
 RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
   curl -fsSL https://github.com/docker/buildx/releases/download/v$BUILDX_VERSION/buildx-v$BUILDX_VERSION.linux-`det-arch.sh a r` > /usr/local/lib/docker/cli-plugins/docker-buildx && \
