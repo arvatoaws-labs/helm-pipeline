@@ -41,7 +41,7 @@ RUN helm3 plugin install https://github.com/helm/helm-mapkubeapis
 RUN helm3 plugin install https://github.com/databus23/helm-diff
 ADD helm-scripts/* /usr/local/bin/
 RUN rm -rf ~/.ssh/known_hosts && \
-mkdir ~/.ssh && \
+mkdir -p ~/.ssh && \
 ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
 ARG FLUX_VERSION=2.4.0
