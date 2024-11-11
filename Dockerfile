@@ -7,7 +7,7 @@ ADD det-arch.sh /usr/local/bin
 # base
 RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes-client git hub openssh-clients jq bc findutils unzip
 
-ARG GH_CLI_VERSION=2.60.1
+ARG GH_CLI_VERSION=2.61.0
 RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
 
 # github
