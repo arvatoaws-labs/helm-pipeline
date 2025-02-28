@@ -34,17 +34,17 @@ RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}
 
 ARG HELM_3_VERSION=3.17.1
 RUN wget https://get.helm.sh/helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
-tar xf helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
-mv linux-`det-arch.sh a r`/helm /usr/bin/helm3 && \
-rm -rf linux-`det-arch.sh a r` helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz
+  tar xf helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
+  mv linux-`det-arch.sh a r`/helm /usr/bin/helm3 && \
+  rm -rf linux-`det-arch.sh a r` helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz
 RUN helm3 plugin install https://github.com/helm/helm-mapkubeapis
 RUN helm3 plugin install https://github.com/databus23/helm-diff
 ADD helm-scripts/* /usr/local/bin/
 RUN rm -rf ~/.ssh/known_hosts && \
-mkdir -p ~/.ssh && \
-ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+  mkdir -p ~/.ssh && \
+  ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
-ARG FLUX_VERSION=2.4.0
+ARG FLUX_VERSION=2.5.1
 RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
 
 ARG EKSCTL_VERSION=0.204.0
