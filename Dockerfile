@@ -26,8 +26,10 @@ ARG BUILDX_VERSION=0.21.2
 COPY --from=docker /usr/local/bin/docker /usr/bin/
 RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
   curl -fsSL https://github.com/docker/buildx/releases/download/v$BUILDX_VERSION/buildx-v$BUILDX_VERSION.linux-`det-arch.sh a r` > /usr/local/lib/docker/cli-plugins/docker-buildx && \
-  chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx && \
-  docker buildx version
+  chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx
+# && \
+#  docker buildx version
+
 
 ARG POPEYE_VERSION=0.22.1
 RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_`det-arch.sh a r`.tar.gz && tar xf popeye_Linux_`det-arch.sh a r`.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_`det-arch.sh a r`.tar.gz
