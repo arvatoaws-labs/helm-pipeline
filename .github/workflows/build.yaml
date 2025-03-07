@@ -95,7 +95,7 @@ jobs:
         docker manifest annotate --arch amd64 "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest" "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-amd64"
         docker manifest push "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest"
     - name: Merge manifests Dev
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/dev'
       run: |
         set -x
         echo "Merging manifests"
