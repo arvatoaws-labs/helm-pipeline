@@ -71,29 +71,29 @@ jobs:
         tags: ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-amd64
         cache-from: type=registry,ref=ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-amd64
         cache-to: type=inline
-    manifest:
-      runs-on: arvato
-      needs: [arm64, amd64]
-      steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-      - name: Merge manifests Latest
-        if: github.ref == 'refs/heads/master'
-        run: |
-          set -x
-          echo "Merging manifests"
-          docker manifest create "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest" "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-arm64" "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-amd64"
-          docker manifest annotate --arch arm64 "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest" "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-arm64"
-          docker manifest annotate --arch amd64 "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest" "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-amd64"
-          docker manifest push "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest"
-      - name: Merge manifests Dev
-        if: github.ref == 'refs/heads/master'
-        run: |
-          set -x
-          echo "Merging manifests"
-          docker manifest create "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev" "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-arm64" "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-amd64"
-          docker manifest annotate --arch arm64 "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev" "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-arm64"
-          docker manifest annotate --arch amd64 "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev" "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-amd64"
-          docker manifest push "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev"
+  manifest:
+    runs-on: arvato
+    needs: [arm64, amd64]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+    - name: Merge manifests Latest
+      if: github.ref == 'refs/heads/master'
+      run: |
+        set -x
+        echo "Merging manifests"
+        docker manifest create "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest" "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-arm64" "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-amd64"
+        docker manifest annotate --arch arm64 "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest" "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-arm64"
+        docker manifest annotate --arch amd64 "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest" "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-amd64"
+        docker manifest push "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest"
+    - name: Merge manifests Dev
+      if: github.ref == 'refs/heads/master'
+      run: |
+        set -x
+        echo "Merging manifests"
+        docker manifest create "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev" "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-arm64" "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-amd64"
+        docker manifest annotate --arch arm64 "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev" "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-arm64"
+        docker manifest annotate --arch amd64 "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev" "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-amd64"
+        docker manifest push "ghcr.io/arvatoaws-labs/helm-pipeline/release:dev"
