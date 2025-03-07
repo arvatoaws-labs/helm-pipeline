@@ -79,6 +79,12 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 1
+    - name: Login to GitHub Packages Docker Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{github.actor}}
+        password: ${{ secrets.GITHUB_TOKEN }}
     - name: Merge manifests Latest
       if: github.ref == 'refs/heads/master'
       run: |
@@ -89,7 +95,7 @@ jobs:
         docker manifest annotate --arch amd64 "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest" "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-amd64"
         docker manifest push "ghcr.io/arvatoaws-labs/helm-pipeline/release:latest"
     - name: Merge manifests Dev
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/dev'
       run: |
         set -x
         echo "Merging manifests"
