@@ -62,3 +62,4 @@ RUN dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/lat
 # RUN dnf -y install packer
 
 RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+RUN mv kustomize /usr/bin/kustomize
