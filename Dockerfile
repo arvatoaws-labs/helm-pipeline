@@ -60,3 +60,5 @@ RUN dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/lat
 # RUN dnf install -y dnf-plugins-core
 # RUN dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
 # RUN dnf -y install packer
+
+RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
