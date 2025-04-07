@@ -5,7 +5,8 @@ VOLUME /var/lib/docker
 ADD det-arch.sh /usr/local/bin
 
 # base
-RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes-client git hub openssh-clients jq bc findutils unzip
+RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes-client git hub openssh-clients jq bc findutils unzip golang
+ENV PATH="/root/go/bin:$PATH"
 
 ARG GH_CLI_VERSION=2.69.0
 RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
@@ -48,7 +49,7 @@ RUN rm -rf ~/.ssh/known_hosts && \
 ARG FLUX_VERSION=2.5.1
 RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
 
-ARG EKSCTL_VERSION=0.206.0
+ARG EKSCTL_VERSION=0.207.0
 RUN wget https://github.com/eksctl-io/eksctl/releases/download/v${EKSCTL_VERSION}/eksctl_Linux_`det-arch.sh a r`.tar.gz && tar xf eksctl_Linux_`det-arch.sh a r`.tar.gz && mv eksctl /usr/bin/ && rm -rf eksctl_Linux_`det-arch.sh a r`.tar.gz
 
 # Session Manager
@@ -63,3 +64,5 @@ RUN dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/lat
 
 RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
 RUN mv kustomize /usr/bin/kustomize
+
+RUN go install github.com/git-chglog/git-chglog/cmd/git-chglog@latest
