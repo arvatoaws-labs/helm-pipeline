@@ -5,7 +5,8 @@ VOLUME /var/lib/docker
 ADD det-arch.sh /usr/local/bin
 
 # base
-RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes-client git hub openssh-clients jq bc findutils unzip
+RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes-client git hub openssh-clients jq bc findutils unzip golang
+ENV PATH="/root/go/bin:$PATH"
 
 ARG GH_CLI_VERSION=2.69.0
 RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
@@ -63,3 +64,5 @@ RUN dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/lat
 
 RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
 RUN mv kustomize /usr/bin/kustomize
+
+RUN go install github.com/git-chglog/git-chglog/cmd/git-chglog@latest
