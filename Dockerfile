@@ -8,7 +8,7 @@ ADD det-arch.sh /usr/local/bin
 RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.32-client git hub openssh-clients jq bc findutils unzip golang gawk
 ENV PATH="/root/go/bin:$PATH"
 
-ARG GH_CLI_VERSION=2.73.0
+ARG GH_CLI_VERSION=2.74.0
 RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
 
 # github
@@ -34,7 +34,7 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
 ARG POPEYE_VERSION=0.22.1
 RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_`det-arch.sh a r`.tar.gz && tar xf popeye_Linux_`det-arch.sh a r`.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_`det-arch.sh a r`.tar.gz
 
-ARG HELM_3_VERSION=3.17.3
+ARG HELM_3_VERSION=3.18.1
 RUN wget https://get.helm.sh/helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
   tar xf helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
   mv linux-`det-arch.sh a r`/helm /usr/bin/helm3 && \
@@ -46,7 +46,7 @@ RUN rm -rf ~/.ssh/known_hosts && \
   mkdir -p ~/.ssh && \
   ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
-ARG FLUX_VERSION=2.5.1
+ARG FLUX_VERSION=2.6.0
 RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
 
 ARG EKSCTL_VERSION=0.208.0
