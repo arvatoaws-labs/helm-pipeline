@@ -8,7 +8,7 @@ ADD det-arch.sh /usr/local/bin
 RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.33-client git hub openssh-clients jq bc findutils unzip golang gawk
 ENV PATH="/root/go/bin:$PATH"
 
-ARG GH_CLI_VERSION=2.76.2
+ARG GH_CLI_VERSION=2.78.0
 RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
 
 # github
@@ -23,7 +23,7 @@ RUN wget https://github.com/mikefarah/yq/releases/download/v$YQ_VERSION/yq_linux
 # ARG VELERO_VERSION=1.16.2
 # RUN wget https://github.com/vmware-tanzu/velero/releases/download/v$VELERO_VERSION/velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz && tar xf velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz && mv velero-v$VELERO_VERSION-linux-`det-arch.sh a r`/velero /usr/bin/velero && rm -rf velero-v$VELERO_VERSION-linux-`det-arch.sh a r`.tar.gz velero-v$VELERO_VERSION-linux-`det-arch.sh a r`
 
-ARG BUILDX_VERSION=0.26.1
+ARG BUILDX_VERSION=0.27.0
 COPY --from=docker /usr/local/bin/docker /usr/bin/
 RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
   curl -fsSL https://github.com/docker/buildx/releases/download/v$BUILDX_VERSION/buildx-v$BUILDX_VERSION.linux-`det-arch.sh a r` > /usr/local/lib/docker/cli-plugins/docker-buildx && \
@@ -34,7 +34,7 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
 ARG POPEYE_VERSION=0.22.1
 RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_`det-arch.sh a r`.tar.gz && tar xf popeye_Linux_`det-arch.sh a r`.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_`det-arch.sh a r`.tar.gz
 
-ARG HELM_3_VERSION=3.18.5
+ARG HELM_3_VERSION=3.18.6
 RUN wget https://get.helm.sh/helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
   tar xf helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
   mv linux-`det-arch.sh a r`/helm /usr/bin/helm3 && \
