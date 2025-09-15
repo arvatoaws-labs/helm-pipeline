@@ -67,4 +67,4 @@ RUN mv kustomize /usr/bin/kustomize
 
 RUN go install github.com/git-chglog/git-chglog/cmd/git-chglog@latest
 
-RUN apk add --no-cache openssl jq curl
+RUN dnf -y install openssl
