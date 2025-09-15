@@ -5,7 +5,7 @@ VOLUME /var/lib/docker
 ADD det-arch.sh /usr/local/bin
 
 # base
-RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.33-client git hub openssh-clients jq bc findutils unzip golang gawk
+RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.33-client git hub openssh-clients jq bc findutils unzip golang gawk openssl
 ENV PATH="/root/go/bin:$PATH"
 
 ARG GH_CLI_VERSION=2.79.0
