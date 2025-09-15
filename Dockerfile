@@ -66,3 +66,5 @@ RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/
 RUN mv kustomize /usr/bin/kustomize
 
 RUN go install github.com/git-chglog/git-chglog/cmd/git-chglog@latest
+
+RUN apk add --no-cache openssl jq curl
