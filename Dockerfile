@@ -8,7 +8,7 @@ ADD det-arch.sh /usr/local/bin
 RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.33-client git hub openssh-clients jq bc findutils unzip golang gawk openssl
 ENV PATH="/root/go/bin:$PATH"
 
-ARG GH_CLI_VERSION=2.79.0
+ARG GH_CLI_VERSION=2.80.0
 RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
 
 # github
@@ -46,7 +46,7 @@ RUN rm -rf ~/.ssh/known_hosts && \
   mkdir -p ~/.ssh && \
   ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
-ARG FLUX_VERSION=2.6.4
+ARG FLUX_VERSION=2.7.0
 RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
 
 ARG EKSCTL_VERSION=0.214.0
