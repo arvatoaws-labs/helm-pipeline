@@ -46,7 +46,7 @@ RUN rm -rf ~/.ssh/known_hosts && \
   mkdir -p ~/.ssh && \
   ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
-ARG FLUX_VERSION=2.7.0
+ARG FLUX_VERSION=2.7.1
 RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
 
 ARG EKSCTL_VERSION=0.215.0
