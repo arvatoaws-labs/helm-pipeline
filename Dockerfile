@@ -8,7 +8,7 @@ ADD det-arch.sh /usr/local/bin
 RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.33-client git hub openssh-clients jq bc findutils unzip golang gawk openssl
 ENV PATH="/root/go/bin:$PATH"
 
-ARG GH_CLI_VERSION=2.81.0
+ARG GH_CLI_VERSION=2.82.0
 RUN dnf install -y https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_`det-arch.sh a r`.rpm
 
 # github
