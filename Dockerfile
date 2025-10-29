@@ -21,9 +21,6 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
   chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx && \
   docker buildx version
 
-ARG FLUX_VERSION=2.7.2
-RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
-
 RUN go install github.com/git-chglog/git-chglog/cmd/git-chglog@latest
 
 RUN dnf install -y dnf5-plugins && dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo && dnf install -y gh --repo gh-cli
@@ -42,7 +39,7 @@ RUN echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /root/.bash
 
 USER debug
 WORKDIR /home/debug
-RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install hub kustomize awscli eksctl helm popeye yq
+RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install hub kustomize awscli eksctl helm popeye yq fluxcd/tap/flux
 USER root
 WORKDIR /root
 
