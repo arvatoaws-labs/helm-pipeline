@@ -7,7 +7,7 @@ on:
     - dev
     - master
   schedule:
-  - cron: '30 12 * * 3'
+  - cron: '30 12 * * *'
 
 jobs:
   arm64:
