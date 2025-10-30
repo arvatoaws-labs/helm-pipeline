@@ -5,7 +5,7 @@ VOLUME /var/lib/docker
 ADD det-arch.sh /usr/local/bin
 
 # base
-RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.34-client git openssh-clients jq bc findutils unzip golang gawk openssl ps
+RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.34-client git openssh-clients jq bc findutils unzip golang gawk openssl procps-ng which file
 ENV PATH="/root/go/bin:$PATH"
 
 # github
@@ -45,6 +45,7 @@ WORKDIR /root
 
 RUN dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_`det-arch.sh z r`/session-manager-plugin.rpm
 
+RUN ln -s /home/linuxbrew/.linuxbrew/bin/helm /usr/bin/helm
 RUN ln -s /home/linuxbrew/.linuxbrew/bin/helm /usr/bin/helm3
 RUN helm3 plugin install https://github.com/helm/helm-mapkubeapis
 RUN helm3 plugin install https://github.com/databus23/helm-diff
@@ -52,3 +53,11 @@ ADD helm-scripts/* /usr/local/bin/
 RUN rm -rf ~/.ssh/known_hosts && \
   mkdir -p ~/.ssh && \
   ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+
+RUN ln -s /home/linuxbrew/.linuxbrew/bin/aws /usr/bin/aws
+RUN ln -s /home/linuxbrew/.linuxbrew/bin/yq /usr/bin/yq
+RUN ln -s /home/linuxbrew/.linuxbrew/bin/popeye /usr/bin/popeye
+RUN ln -s /home/linuxbrew/.linuxbrew/bin/flux /usr/bin/flux
+RUN ln -s /home/linuxbrew/.linuxbrew/bin/kustomize /usr/bin/kustomize
+RUN ln -s /home/linuxbrew/.linuxbrew/bin/eksctl /usr/bin/eksctl
+RUN ln -s /home/linuxbrew/.linuxbrew/bin/hub /usr/bin/hub
