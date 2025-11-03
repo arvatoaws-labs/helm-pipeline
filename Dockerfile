@@ -34,7 +34,7 @@ RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
 ARG POPEYE_VERSION=0.22.1
 RUN wget https://github.com/derailed/popeye/releases/download/v${POPEYE_VERSION}/popeye_Linux_`det-arch.sh a r`.tar.gz && tar xf popeye_Linux_`det-arch.sh a r`.tar.gz && mv popeye /usr/bin/ && rm -rf popeye_Linux_`det-arch.sh a r`.tar.gz
 
-ARG HELM_3_VERSION=3.18.6
+ARG HELM_3_VERSION=3.19.0
 RUN wget https://get.helm.sh/helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
   tar xf helm-v${HELM_3_VERSION}-linux-`det-arch.sh a r`.tar.gz && \
   mv linux-`det-arch.sh a r`/helm /usr/bin/helm3 && \
@@ -46,10 +46,10 @@ RUN rm -rf ~/.ssh/known_hosts && \
   mkdir -p ~/.ssh && \
   ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
-ARG FLUX_VERSION=2.6.4
+ARG FLUX_VERSION=2.7.3
 RUN wget https://github.com/fluxcd/flux2/releases/download/v$FLUX_VERSION/flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && tar xf flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz && mv flux /usr/bin && rm -f flux_${FLUX_VERSION}_linux_`det-arch.sh a r`.tar.gz
 
-ARG EKSCTL_VERSION=0.212.0
+ARG EKSCTL_VERSION=0.216.0
 RUN wget https://github.com/eksctl-io/eksctl/releases/download/v${EKSCTL_VERSION}/eksctl_Linux_`det-arch.sh a r`.tar.gz && tar xf eksctl_Linux_`det-arch.sh a r`.tar.gz && mv eksctl /usr/bin/ && rm -rf eksctl_Linux_`det-arch.sh a r`.tar.gz
 
 # Session Manager
