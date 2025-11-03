@@ -42,7 +42,7 @@ jobs:
         cache-from: type=registry,ref=ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-arm64
         cache-to: type=inline
   amd64:
-    runs-on: ubuntu-latest
+    runs-on: arvato-x86
     steps:
     - name: Checkout
       uses: actions/checkout@v5
