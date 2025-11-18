@@ -39,16 +39,23 @@ RUN echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /root/.bash
 
 USER debug
 WORKDIR /home/debug
-RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install hub kustomize awscli eksctl helm popeye yq fluxcd/tap/flux
+RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install hub kustomize awscli eksctl popeye yq fluxcd/tap/flux
+# workaround
+RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+RUN chmod 700 get_helm.sh
+RUN ./get_helm.sh
+#
 USER root
 WORKDIR /root
 
 RUN dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_`det-arch.sh z r`/session-manager-plugin.rpm
 
-RUN ln -s /home/linuxbrew/.linuxbrew/bin/helm /usr/bin/helm
-RUN ln -s /home/linuxbrew/.linuxbrew/bin/helm /usr/bin/helm3
-RUN helm3 plugin install --verify=false https://github.com/helm/helm-mapkubeapis
-RUN helm3 plugin install --verify=false https://github.com/databus23/helm-diff
+#RUN ln -s /home/linuxbrew/.linuxbrew/bin/helm /usr/bin/helm
+#RUN ln -s /home/linuxbrew/.linuxbrew/bin/helm /usr/bin/helm3
+RUN ln /usr/local/bin/helm /usr/bin/helm3
+RUN ln /usr/local/bin/helm /usr/bin/helm
+RUN helm3 plugin install https://github.com/helm/helm-mapkubeapis
+RUN helm3 plugin install https://github.com/databus23/helm-diff --version v3.13.2
 ADD helm-scripts/* /usr/local/bin/
 RUN rm -rf ~/.ssh/known_hosts && \
   mkdir -p ~/.ssh && \
