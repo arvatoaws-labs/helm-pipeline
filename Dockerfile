@@ -41,9 +41,9 @@ USER debug
 WORKDIR /home/debug
 RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install hub kustomize awscli eksctl popeye yq fluxcd/tap/flux
 # workaround
-$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-$ chmod 700 get_helm.sh
-$ ./get_helm.sh
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
 #
 USER root
 WORKDIR /root
