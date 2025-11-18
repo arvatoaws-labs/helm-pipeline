@@ -52,7 +52,8 @@ RUN dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/lat
 
 #RUN ln -s /home/linuxbrew/.linuxbrew/bin/helm /usr/bin/helm
 #RUN ln -s /home/linuxbrew/.linuxbrew/bin/helm /usr/bin/helm3
-RUN ln /usr/local/bin/helm3 /usr/bin/helm3
+RUN ln /usr/local/bin/helm /usr/bin/helm3
+RUN ln /usr/local/bin/helm /usr/bin/helm
 RUN helm3 plugin install --verify=false https://github.com/helm/helm-mapkubeapis
 RUN helm3 plugin install --verify=false https://github.com/databus23/helm-diff --version v3.13.2
 ADD helm-scripts/* /usr/local/bin/
