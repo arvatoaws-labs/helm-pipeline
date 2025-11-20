@@ -71,8 +71,6 @@ jobs:
         push: true
         pull: true
         tags: ${{ steps.meta-arm64-prod.outputs.tags }} # ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-arm64
-        cache-from: type=registry,ref=ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-arm64
-        cache-to: type=inline
     - name: Build and Push Dev
       id: build-arm64-dev
       uses: docker/build-push-action@v6
@@ -81,8 +79,6 @@ jobs:
         push: true
         pull: true
         tags: ${{ steps.meta-arm64-dev.outputs.tags }} # ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-arm64
-        cache-from: type=registry,ref=ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-arm64
-        cache-to: type=inline
     - name: Smoke Test Dev
       if: github.ref == 'refs/heads/dev'
       run: |
@@ -172,8 +168,6 @@ jobs:
         push: true
         pull: true
         tags: ${{ steps.meta-amd64-prod.outputs.tags }} # ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-amd64
-        cache-from: type=registry,ref=ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-amd64
-        cache-to: type=inline
     - name: Build and Push Dev
       id: build-amd64-dev
       uses: docker/build-push-action@v6
@@ -182,8 +176,6 @@ jobs:
         push: true
         pull: true
         tags: ${{ steps.meta-amd64-dev.outputs.tags }} # ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-amd64
-        cache-from: type=registry,ref=ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-amd64
-        cache-to: type=inline
   manifest:
     runs-on: arvato
     needs: [arm64, amd64]
