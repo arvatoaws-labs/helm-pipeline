@@ -12,6 +12,9 @@ on:
 jobs:
   arm64:
     runs-on: arvato
+    outputs:
+      image-digest-prod: ${{ steps.build-arm64-prod.outputs.digest }}
+      image-digest-dev: ${{ steps.build-arm64-dev.outputs.digest }}
     steps:
     - name: Checkout
       uses: actions/checkout@v5
@@ -82,6 +85,9 @@ jobs:
         cache-to: type=inline
   amd64:
     runs-on: arvato-x86
+    outputs:
+      image-digest-prod: ${{ steps.build-amd64-prod.outputs.digest }}
+      image-digest-dev: ${{ steps.build-amd64-dev.outputs.digest }}
     steps:
     - name: Checkout
       uses: actions/checkout@v5
@@ -207,8 +213,8 @@ jobs:
         index-annotations: ${{ steps.meta-dev.outputs.labels }}
         tags: ${{ steps.meta-dev.outputs.tags }}
         sources: |
-          ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ needs.build-amd64-dev.outputs.digest }}
-          ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ needs.build-arm64-dev.outputs.digest }}
+          ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ needs.arm64.outputs.image-digest-dev }}
+          ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ needs.amd64.outputs.image-digest-dev }}
     - name: Create Docker Manifest for Prod
       uses: int128/docker-manifest-create-action@v2
       id: build-prod
@@ -217,5 +223,5 @@ jobs:
         index-annotations: ${{ steps.meta-prod.outputs.labels }}
         tags: ${{ steps.meta-prod.outputs.tags }}
         sources: |
-          ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ needs.build-amd64-prod.outputs.digest }}
-          ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ needs.build-arm64-prod.outputs.digest }}
+          ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ needs.arm64.outputs.image-digest-prod }}
+          ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ needs.amd64.outputs.image-digest-prod }}
