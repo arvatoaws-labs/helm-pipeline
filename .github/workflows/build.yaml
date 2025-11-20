@@ -103,7 +103,7 @@ jobs:
           "git-chglog"
           "blabalabub"  # this one should fail
         ]
-        for exe in "${exes[@]}"; do
+        for exe in exes[@]; do
           echo "Checking $exe exists in path"
           docker run -it --rm ghcr.io/arvatoaws-labs/helm-pipeline/release@{{ steps.meta-arm64-dev.outputs.digest }} which $exe
         done
