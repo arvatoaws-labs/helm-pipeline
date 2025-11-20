@@ -83,6 +83,27 @@ jobs:
         tags: ${{ steps.meta-arm64-dev.outputs.tags }} # ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-arm64
         cache-from: type=registry,ref=ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-arm64
         cache-to: type=inline
+    - name: Smoke Test Dev
+      if: github.ref == 'refs/heads/dev'
+      run: |
+        exes=[
+          "helm",
+          "yq",
+          "kubectl",
+          "kustomize",
+          "popeye",
+          "flux",
+          "eksctl",
+          "hub",
+          "jq",
+          "sed",
+          "curl",
+          "blabalabub"  # this one should fail
+        ]
+        for exe in "${exes[@]}"; do
+          echo "Checking $exe exists in path"
+          docker run --rm ghcr.io/arvatoaws-labs/helm-pipeline/release@{{ steps.meta-arm64-dev.outputs.digest }} which $exe
+        done
   amd64:
     runs-on: arvato-x86
     outputs:
