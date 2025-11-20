@@ -86,6 +86,7 @@ jobs:
     - name: Smoke Test Dev
       if: github.ref == 'refs/heads/dev'
       run: |
+        set -x
         exes=[
           "helm"
           "yq"
@@ -98,11 +99,17 @@ jobs:
           "jq"
           "sed"
           "curl"
+          "git"
+          "ssh"
+          "find"
+          "gh"
+          "flux"
+          "git-chglog"
           "blabalabub"  # this one should fail
         ]
         for exe in "${exes[@]}"; do
           echo "Checking $exe exists in path"
-          docker run --rm ghcr.io/arvatoaws-labs/helm-pipeline/release@{{ steps.meta-arm64-dev.outputs.digest }} which $exe
+          docker run -it --rm ghcr.io/arvatoaws-labs/helm-pipeline/release@{{ steps.meta-arm64-dev.outputs.digest }} which $exe
         done
   amd64:
     runs-on: arvato-x86
