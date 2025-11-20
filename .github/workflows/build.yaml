@@ -77,7 +77,7 @@ jobs:
       with:
         push: true
         pull: true
-        tags: ${{ steps.meta-arm64-prod.outputs.tags }} # ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-arm64
+        tags: ${{ steps.meta-arm64-dev.outputs.tags }} # ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-arm64
         cache-from: type=registry,ref=ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-arm64
         cache-to: type=inline
   amd64:
@@ -137,7 +137,7 @@ jobs:
       with:
         push: true
         pull: true
-        tags: ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-amd64
+        tags: ${{ steps.meta-amd64-prod.outputs.tags }} # ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-amd64
         cache-from: type=registry,ref=ghcr.io/arvatoaws-labs/helm-pipeline/release:latest-amd64
         cache-to: type=inline
     - name: Build and Push Dev
@@ -147,7 +147,7 @@ jobs:
       with:
         push: true
         pull: true
-        tags: ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-amd64
+        tags: ${{ steps.meta-amd64-dev.outputs.tags }} # ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-amd64
         cache-from: type=registry,ref=ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-amd64
         cache-to: type=inline
   manifest:
