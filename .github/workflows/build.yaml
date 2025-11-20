@@ -87,17 +87,17 @@ jobs:
       if: github.ref == 'refs/heads/dev'
       run: |
         exes=[
-          "helm",
-          "yq",
-          "kubectl",
-          "kustomize",
-          "popeye",
-          "flux",
-          "eksctl",
-          "hub",
-          "jq",
-          "sed",
-          "curl",
+          "helm"
+          "yq"
+          "kubectl"
+          "kustomize"
+          "popeye"
+          "flux"
+          "eksctl"
+          "hub"
+          "jq"
+          "sed"
+          "curl"
           "blabalabub"  # this one should fail
         ]
         for exe in "${exes[@]}"; do
