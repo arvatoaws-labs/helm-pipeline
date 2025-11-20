@@ -49,6 +49,7 @@ RUN ln -s /home/linuxbrew/.linuxbrew/bin/helm /usr/bin/helm
 RUN ln -s /home/linuxbrew/.linuxbrew/bin/helm /usr/bin/helm3
 RUN helm3 plugin install https://github.com/helm/helm-mapkubeapis
 RUN helm3 plugin install https://github.com/databus23/helm-diff --version v3.13.2
+###
 ADD helm-scripts/* /usr/local/bin/
 RUN rm -rf ~/.ssh/known_hosts && \
   mkdir -p ~/.ssh && \
