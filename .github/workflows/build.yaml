@@ -83,7 +83,7 @@ jobs:
       if: github.ref == 'refs/heads/dev'
       run: |
         set -x
-        exes=[
+        exes=(
           "helm"
           "yq"
           "kubectl"
@@ -101,9 +101,14 @@ jobs:
           "gh"
           "flux"
           "git-chglog"
-          "blabalabub"  # this one should fail
-        ]
-        for exe in exes[@]; do
+          "det-arch.sh"
+          "download-gh-release.sh"
+          "extract-gh-release.sh"
+          "create-ns.sh"
+          "migrate-helm.sh"
+          "blabalabub"
+        )
+        for exe in ${exes[@]}; do
           echo "Checking $exe exists in path"
           docker run -it --rm ghcr.io/arvatoaws-labs/helm-pipeline/release@{{ steps.meta-arm64-dev.outputs.digest }} which $exe
         done
