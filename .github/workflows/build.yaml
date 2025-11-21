@@ -79,10 +79,9 @@ jobs:
         push: true
         pull: true
         tags: ${{ steps.meta-arm64-dev.outputs.tags }} # ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-arm64
-    - name: Smoke Test Dev
-      if: github.ref == 'refs/heads/dev'
+    - name: Smoke Test Prod
+      if: github.ref == 'refs/heads/master'
       run: |
-        set -x
         exes=(
           "helm"
           "yq"
@@ -106,7 +105,37 @@ jobs:
           "extract-gh-release.sh"
           "create-ns.sh"
           "migrate-helm.sh"
-          "blabalabub"
+        )
+        for exe in ${exes[@]}; do
+          echo "Checking $exe exists in path"
+          docker run -i --rm ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ steps.build-arm64-prod.outputs.digest }} which $exe
+        done
+    - name: Smoke Test Dev
+      if: github.ref == 'refs/heads/dev'
+      run: |
+        exes=(
+          "helm"
+          "yq"
+          "kubectl"
+          "kustomize"
+          "popeye"
+          "flux"
+          "eksctl"
+          "hub"
+          "jq"
+          "sed"
+          "curl"
+          "git"
+          "ssh"
+          "find"
+          "gh"
+          "flux"
+          "git-chglog"
+          "det-arch.sh"
+          "download-gh-release.sh"
+          "extract-gh-release.sh"
+          "create-ns.sh"
+          "migrate-helm.sh"
         )
         for exe in ${exes[@]}; do
           echo "Checking $exe exists in path"
@@ -181,6 +210,68 @@ jobs:
         push: true
         pull: true
         tags: ${{ steps.meta-amd64-dev.outputs.tags }} # ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-amd64
+    - name: Smoke Test Prod
+      if: github.ref == 'refs/heads/master'
+      run: |
+        exes=(
+          "helm"
+          "yq"
+          "kubectl"
+          "kustomize"
+          "popeye"
+          "flux"
+          "eksctl"
+          "hub"
+          "jq"
+          "sed"
+          "curl"
+          "git"
+          "ssh"
+          "find"
+          "gh"
+          "flux"
+          "git-chglog"
+          "det-arch.sh"
+          "download-gh-release.sh"
+          "extract-gh-release.sh"
+          "create-ns.sh"
+          "migrate-helm.sh"
+        )
+        for exe in ${exes[@]}; do
+          echo "Checking $exe exists in path"
+          docker run -i --rm ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ steps.build-amd64-prod.outputs.digest }} which $exe
+        done
+    - name: Smoke Test Dev
+      if: github.ref == 'refs/heads/dev'
+      run: |
+        exes=(
+          "helm"
+          "yq"
+          "kubectl"
+          "kustomize"
+          "popeye"
+          "flux"
+          "eksctl"
+          "hub"
+          "jq"
+          "sed"
+          "curl"
+          "git"
+          "ssh"
+          "find"
+          "gh"
+          "flux"
+          "git-chglog"
+          "det-arch.sh"
+          "download-gh-release.sh"
+          "extract-gh-release.sh"
+          "create-ns.sh"
+          "migrate-helm.sh"
+        )
+        for exe in ${exes[@]}; do
+          echo "Checking $exe exists in path"
+          docker run -i --rm ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ steps.build-amd64-dev.outputs.digest }} which $exe
+        done
   manifest:
     runs-on: arvato
     needs: [arm64, amd64]
