@@ -5,7 +5,7 @@ VOLUME /var/lib/docker
 ADD det-arch.sh /usr/local/bin
 
 # base
-RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.34-client git openssh-clients jq bc findutils unzip golang gawk openssl procps-ng which file
+RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.34-client git openssh-clients jq bc findutils unzip golang gawk openssl procps-ng which file ping
 ENV PATH="/root/go/bin:$PATH"
 
 # github
@@ -17,9 +17,9 @@ ADD custom-scripts/* /usr/local/bin/
 ARG BUILDX_VERSION=0.30.1
 COPY --from=docker /usr/local/bin/docker /usr/bin/
 RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
-  curl -fsSL https://github.com/docker/buildx/releases/download/v$BUILDX_VERSION/buildx-v$BUILDX_VERSION.linux-`det-arch.sh a r` > /usr/local/lib/docker/cli-plugins/docker-buildx && \
-  chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx && \
-  docker buildx version
+    curl -fsSL https://github.com/docker/buildx/releases/download/v$BUILDX_VERSION/buildx-v$BUILDX_VERSION.linux-`det-arch.sh a r` > /usr/local/lib/docker/cli-plugins/docker-buildx && \
+    chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx && \
+    docker buildx version
 
 RUN go install github.com/git-chglog/git-chglog/cmd/git-chglog@latest
 
@@ -51,8 +51,8 @@ RUN helm plugin install --verify=false https://github.com/databus23/helm-diff
 ###
 ADD helm-scripts/* /usr/local/bin/
 RUN rm -rf ~/.ssh/known_hosts && \
-  mkdir -p ~/.ssh && \
-  ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+    mkdir -p ~/.ssh && \
+    ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
 RUN ln -s /home/linuxbrew/.linuxbrew/bin/aws /usr/bin/aws
 RUN ln -s /home/linuxbrew/.linuxbrew/bin/yq /usr/bin/yq
