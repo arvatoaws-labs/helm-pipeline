@@ -61,7 +61,6 @@ jobs:
           "download-gh-release.sh"
           "extract-gh-release.sh"
           "create-ns.sh"
-          "migrate-helm.sh"
         )
         for exe in ${exes[@]}; do
           echo "Checking $exe exists in path"
@@ -119,7 +118,6 @@ jobs:
           "download-gh-release.sh"
           "extract-gh-release.sh"
           "create-ns.sh"
-          "migrate-helm.sh"
         )
         for exe in ${exes[@]}; do
           echo "Checking $exe exists in path"
