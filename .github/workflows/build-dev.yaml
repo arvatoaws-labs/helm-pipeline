@@ -1,0 +1,153 @@
+name: build-dev
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - dev
+  schedule:
+  - cron: '30 12 * * *'
+
+jobs:
+  arm64:
+    runs-on: arvato
+    outputs:
+      image-digest: ${{ steps.build-arm64.outputs.digest }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 1
+        ref: dev
+    - name: Docker meta
+      id: meta-arm64
+      run: |
+        echo "tags=ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-arm64,ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-$(git rev-parse --short HEAD)-$(date date +"%Y-%m-%dT%H:%M:%S%z")-arm64" >> $GITHUB_OUTPUT
+    - name: Login to GitHub Packages Docker Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{github.actor}}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build and Push
+      id: build-arm64
+      uses: docker/build-push-action@v6
+      with:
+        push: true
+        pull: true
+        tags: ${{ steps.meta-arm64.outputs.tags }}
+    - name: Smoke Test
+      run: |
+        exes=(
+          "helm"
+          "yq"
+          "kubectl"
+          "kustomize"
+          "popeye"
+          "flux"
+          "eksctl"
+          "hub"
+          "jq"
+          "sed"
+          "curl"
+          "git"
+          "ssh"
+          "find"
+          "gh"
+          "flux"
+          "git-chglog"
+          "det-arch.sh"
+          "download-gh-release.sh"
+          "extract-gh-release.sh"
+          "create-ns.sh"
+          "migrate-helm.sh"
+        )
+        for exe in ${exes[@]}; do
+          echo "Checking $exe exists in path"
+          docker run -i --rm ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ steps.build-arm64.outputs.digest }} which $exe
+        done
+  amd64:
+    runs-on: arvato-x86
+    outputs:
+      image-digest: ${{ steps.build-amd64.outputs.digest }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 1
+        ref: dev
+    - name: Login to GitHub Packages Docker Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{github.actor}}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Docker meta
+      id: meta-amd64
+      run: |
+        echo "tags=ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-amd64,ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-$(git rev-parse --short HEAD)-$(date date +"%Y-%m-%dT%H:%M:%S%z")-amd64" >> $GITHUB_OUTPUT
+    - name: Build and Push
+      id: build-amd64
+      uses: docker/build-push-action@v6
+      with:
+        push: true
+        pull: true
+        tags: ${{ steps.meta-amd64.outputs.tags }}
+    - name: Smoke Test
+      run: |
+        exes=(
+          "helm"
+          "yq"
+          "kubectl"
+          "kustomize"
+          "popeye"
+          "flux"
+          "eksctl"
+          "hub"
+          "jq"
+          "sed"
+          "curl"
+          "git"
+          "ssh"
+          "find"
+          "gh"
+          "flux"
+          "git-chglog"
+          "det-arch.sh"
+          "download-gh-release.sh"
+          "extract-gh-release.sh"
+          "create-ns.sh"
+          "migrate-helm.sh"
+        )
+        for exe in ${exes[@]}; do
+          echo "Checking $exe exists in path"
+          docker run -i --rm ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ steps.build-amd64.outputs.digest }} which $exe
+        done
+  manifest:
+    runs-on: arvato
+    needs: [arm64, amd64]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 1
+        ref: dev
+    - name: Docker meta
+      id: meta
+      run: |
+        echo "tags=ghcr.io/arvatoaws-labs/helm-pipeline/release:dev,ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-$(git rev-parse --short HEAD)-$(date date +"%Y-%m-%dT%H:%M:%S%z")" >> $GITHUB_OUTPUT
+    - name: Login to GitHub Packages Docker Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{github.actor}}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create Docker Manifest for
+      uses: int128/docker-manifest-create-action@v2
+      id: build
+      with:
+        index-annotations: ${{ steps.meta.outputs.labels }}
+        tags: ${{ steps.meta.outputs.tags }}
+        sources: |
+          ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ needs.arm64.outputs.image-digest }}
+          ghcr.io/arvatoaws-labs/helm-pipeline/release@${{ needs.amd64.outputs.image-digest }}
