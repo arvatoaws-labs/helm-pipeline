@@ -137,7 +137,7 @@ jobs:
     - name: Docker meta
       id: meta
       run: |
-        echo "tags=ghcr.io/arvatoaws-labs/helm-pipeline/release:latest,ghcr.io/arvatoaws-labs/helm-pipeline/release:$(git rev-parse --short HEAD)-$(date +"%Y-%m-%d")" >> $GITHUB_OUTPUT
+        echo "tags=ghcr.io/arvatoaws-labs/helm-pipeline/release:latest\nghcr.io/arvatoaws-labs/helm-pipeline/release:$(git rev-parse --short HEAD)-$(date +"%Y-%m-%d")" >> $GITHUB_OUTPUT
     - name: Login to GitHub Packages Docker Registry
       uses: docker/login-action@v3
       with:
