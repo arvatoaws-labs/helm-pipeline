@@ -33,6 +33,7 @@ jobs:
       id: build-arm64
       uses: docker/build-push-action@v6
       with:
+        context: .
         push: true
         pull: true
         tags: ${{ steps.meta-arm64.outputs.tags }}
@@ -90,6 +91,7 @@ jobs:
       id: build-amd64
       uses: docker/build-push-action@v6
       with:
+        context: .
         push: true
         pull: true
         tags: ${{ steps.meta-amd64.outputs.tags }}
