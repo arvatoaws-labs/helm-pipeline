@@ -39,7 +39,13 @@ RUN echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /root/.bash
 
 USER debug
 WORKDIR /home/debug
-RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install hub kustomize awscli eksctl popeye yq fluxcd/tap/flux
+RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install hub
+RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install kustomize
+RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install awscli
+RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install eksctl
+RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install popeye
+RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install yq
+RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install fluxcd/tap/flux
 # workaround
 RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 RUN chmod 700 get_helm.sh
