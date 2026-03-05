@@ -31,7 +31,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build and Push
       id: build-arm64
-      uses: docker/build-push-action@v6
+      uses: docker/build-push-action@v7
       with:
         context: .
         push: true
@@ -88,7 +88,7 @@ jobs:
         echo "tags=ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-amd64,ghcr.io/arvatoaws-labs/helm-pipeline/release:dev-$(git rev-parse --short HEAD)-$(date +"%Y-%m-%d")-amd64" >> $GITHUB_OUTPUT
     - name: Build and Push
       id: build-amd64
-      uses: docker/build-push-action@v6
+      uses: docker/build-push-action@v7
       with:
         context: .
         push: true
