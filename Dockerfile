@@ -5,7 +5,7 @@ VOLUME /var/lib/docker
 ADD det-arch.sh /usr/local/bin
 
 # base
-RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.36-client git openssh-clients jq bc findutils unzip gawk openssl procps-ng which file ping clang && dnf clean all
+RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.36-client git openssh-clients jq bc findutils unzip gawk openssl procps-ng which file ping clang bsdtar && dnf clean all
 
 # github
 ADD gh-scripts/* /usr/local/bin/
