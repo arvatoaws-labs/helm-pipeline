@@ -5,7 +5,7 @@ VOLUME /var/lib/docker
 ADD det-arch.sh /usr/local/bin
 
 # base
-RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.36-client git openssh-clients jq bc findutils unzip gawk openssl procps-ng which file ping clang
+RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.36-client git openssh-clients jq bc findutils unzip gawk openssl procps-ng which file ping clang && dnf clean all
 
 # github
 ADD gh-scripts/* /usr/local/bin/
@@ -46,8 +46,6 @@ RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install yq
 RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && brew install fluxcd/tap/flux
 USER root
 WORKDIR /root
-
-RUN dnf install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_`det-arch.sh z r`/session-manager-plugin.rpm
 
 RUN ln -s /home/linuxbrew/.linuxbrew/bin/helm /usr/bin/helm
 RUN helm plugin install --verify=false https://github.com/helm/helm-mapkubeapis
