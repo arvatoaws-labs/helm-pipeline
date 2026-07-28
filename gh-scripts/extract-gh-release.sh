@@ -11,4 +11,20 @@ SRC_FILE="$1"
 DST_FOLDER="$2"
 
 mkdir -p $DST_FOLDER
-tar --extract --gzip --no-same-owner --no-same-permissions --no-xattrs --no-acls --no-selinux --delay-directory-restore -f $SRC_FILE --strip 1 -C $DST_FOLDER
+
+# GitHub tarballs do not require preserving ownership, ACL/xattr, or SELinux labels.
+# Disabling those metadata restores avoids extraction failures on some CodeBuild
+# filesystems (e.g. "Function not implemented" from tar while creating files).
+tar \
+  --extract \
+  --gzip \
+  --verbose \
+  --file "$SRC_FILE" \
+  --strip-components=1 \
+  --directory "$DST_FOLDER" \
+  --no-same-owner \
+  --no-same-permissions \
+  --delay-directory-restore \
+  --no-xattrs \
+  --no-acls \
+  --no-selinux
