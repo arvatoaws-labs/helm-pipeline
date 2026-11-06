@@ -1,11 +1,11 @@
-FROM ghcr.io/arvatoaws-labs/fedora:44
+FROM ghcr.io/arvatoaws-labs/fedora:45
 
 VOLUME /var/lib/docker
 
 ADD det-arch.sh /usr/local/bin
 
 # base
-RUN dnf upgrade -y && dnf install -y sed wget curl kubernetes1.36-client git openssh-clients jq bc findutils unzip gawk openssl procps-ng which file ping clang bsdtar && dnf clean all
+RUN dnf upgrade -y && dnf install --allowerasing -y sed wget curl kubernetes1.37-client git openssh-clients jq bc findutils unzip gawk openssl procps-ng which file ping clang bsdtar && dnf clean all
 
 # github
 ADD gh-scripts/* /usr/local/bin/
@@ -13,7 +13,7 @@ ADD gh-scripts/* /usr/local/bin/
 # custom
 ADD custom-scripts/* /usr/local/bin/
 
-ARG BUILDX_VERSION=0.35.0
+ARG BUILDX_VERSION=0.38.2
 COPY --from=docker /usr/local/bin/docker /usr/bin/
 RUN mkdir -p /usr/local/lib/docker/cli-plugins && \
     curl -fsSL https://github.com/docker/buildx/releases/download/v$BUILDX_VERSION/buildx-v$BUILDX_VERSION.linux-`det-arch.sh a r` > /usr/local/lib/docker/cli-plugins/docker-buildx && \
